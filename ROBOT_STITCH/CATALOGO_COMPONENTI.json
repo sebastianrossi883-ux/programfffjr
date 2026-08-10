@@ -1,0 +1,86 @@
+{
+  "cartella": "/home/user/programfffjr/ROBOT_STITCH/componenti",
+  "componenti": [
+    {
+      "id": "sticky-grid-scroll",
+      "name": "codrops-sticky-grid-scroll-main",
+      "function": "mountStickyGridScroll",
+      "dom_value": "StickyGridScrollOriginal",
+      "source_root": "/home/user/programfffjr/ROBOT_STITCH/componenti/codrops-sticky-grid-scroll-main",
+      "source_files": [
+        "src/index.html",
+        "src/styles/base.css",
+        "src/styles/index.css",
+        "src/scripts/index.js",
+        "src/scripts/utils.js"
+      ],
+      "required_tokens": [
+        "class StickyGridScroll",
+        "ScrollTrigger",
+        "new Lenis("
+      ],
+      "source_hashes": {
+        "src/index.html": "7db809f288616a984f1f31e5e809fe5b4d95219c21e98e720a6f9ee16a4a03ae",
+        "src/styles/base.css": "c5b288d3f71972b7f0973d7e9293fc8c5cc8a4249f3a67988b226dd580584adf",
+        "src/styles/index.css": "0a9334310d6d6f2314357ed61fe95bc2665a048cda4bd5d2e0d8d7651097a42b",
+        "src/scripts/index.js": "906d632264e17ca4acddda24015f553f33f7f6675f551f84ebcd9ce32dfc5f96",
+        "src/scripts/utils.js": "eda836456af1d9123bc214f122045d28b54725d8c1b92ddbafa0c4fd97668a21"
+      },
+      "profilo_motion": {
+        "start": [
+          "top bottom",
+          "top 57%",
+          "top 25%"
+        ],
+        "end": [
+          "top top",
+          "bottom bottom"
+        ],
+        "scrub": [
+          "true"
+        ],
+        "pin": [],
+        "toggleActions": [
+          "play none none reset"
+        ],
+        "ease": [
+          "none",
+          "power1.out",
+          "power1.inOut",
+          "power3.inOut",
+          "power2.inOut",
+          "power1.${isVisible ?"
+        ],
+        "duration": [
+          "0.7",
+          "1",
+          "0.5",
+          "0.4"
+        ],
+        "stagger": [
+          "0.06"
+        ],
+        "scale": [
+          "2.05"
+        ],
+        "xPercent": [
+          "-40",
+          "40"
+        ],
+        "yPercent": [
+          "-100"
+        ],
+        "agganci": [
+          "-=0.5",
+          "-=90%",
+          "-=0.6",
+          "-=0.32"
+        ],
+        "lenis": [
+          "0.08",
+          "1.4"
+        ]
+      }
+    }
+  ]
+}

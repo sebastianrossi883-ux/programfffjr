@@ -433,6 +433,67 @@ CATALOG = (
 )
 
 
+# ---------------------------------------------------------------------------
+# CARTELLA UNIVERSALE
+#
+# Le voci qui sopra sono scritte a mano, una per una. Da qui in poi non serve
+# piu': si mette un componente (cartella o .zip) dentro CARTELLA_UNIVERSALE,
+# si lancia `python3 componenti_universali.py`, e la voce nasce da sola con la
+# stessa forma - id, funzione mount, valore root, file sorgente e i token
+# letterali pescati dal codice vero.
+#
+# Le voci automatiche si aggiungono, non sostituiscono: un id gia' presente nel
+# catalogo scritto a mano vince, cosi' aggiungere una cartella non puo'
+# cambiare in silenzio un componente gia' collaudato.
+# ---------------------------------------------------------------------------
+CARTELLA_UNIVERSALE = Path(__file__).resolve().parent / "componenti"
+CATALOGO_UNIVERSALE_JSON = Path(__file__).resolve().parent / "CATALOGO_COMPONENTI.json"
+
+
+def _dentro(percorso: Path, radice: Path) -> bool:
+    try:
+        percorso.relative_to(radice)
+    except ValueError:
+        return False
+    return True
+
+
+def _catalogo_dalla_cartella() -> tuple[dict, ...]:
+    if not CATALOGO_UNIVERSALE_JSON.is_file():
+        return ()
+    try:
+        dati = json.loads(CATALOGO_UNIVERSALE_JSON.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"Catalogo automatico illeggibile, uso solo quello scritto a mano: {exc}")
+        return ()
+
+    gia_presenti = {voce["id"] for voce in CATALOG}
+    voci: list[dict] = []
+    for voce in dati.get("componenti", []):
+        if voce["id"] in gia_presenti:
+            continue
+        radice = Path(voce["source_root"])
+        if not radice.is_dir():
+            continue
+        voci.append(
+            {
+                "id": voce["id"],
+                "name": voce.get("name") or voce["id"],
+                "function": voce["function"],
+                "dom_value": voce["dom_value"],
+                "source_root": radice,
+                "source_files": tuple(voce["source_files"]),
+                "required_tokens": list(voce["required_tokens"]),
+            }
+        )
+    if voci:
+        print(f"Catalogo automatico: {len(voci)} componenti da {CARTELLA_UNIVERSALE}")
+    return tuple(voci)
+
+
+CATALOG = CATALOG + _catalogo_dalla_cartella()
+
+
 FRAMER_CATALOG = (
     {
         "id": "framer-stryds",
@@ -695,10 +756,14 @@ def validate_catalog() -> dict:
         root = Path(entry["source_root"])
         if forbidden_path.search(str(root)):
             raise RuntimeError(f"Componente non canonico o non portabile: {root}")
-        try:
-            root.relative_to(COMPONENTS_ROOT)
-        except ValueError as exc:
-            raise RuntimeError(f"Componente fuori dalla fonte autorevole: {root}") from exc
+        # Due fonti autorevoli: l'arsenale storico e la cartella universale.
+        # Fuori da queste due non si pesca niente, altrimenti basterebbe un
+        # percorso sbagliato nel JSON per far integrare a Stitch un file a caso.
+        radici_ammesse = (COMPONENTS_ROOT, CARTELLA_UNIVERSALE)
+        if not any(_dentro(root, ammessa) for ammessa in radici_ammesse):
+            raise RuntimeError(
+                f"Componente fuori dalle fonti autorevoli {radici_ammesse}: {root}"
+            )
         sources = _source_paths(entry)
         missing = [str(path) for path in sources if not path.is_file()]
         if missing:
