@@ -1,0 +1,48 @@
+Jules: correzione tecnica del sito esportato da Stitch.
+
+RUOLO
+Sei un bug-fixer frontend. Devi correggere problemi tecnici, non ridisegnare il sito.
+
+OBIETTIVO
+Apri il file code-animated.html incluso nel pacchetto e correggi solo bug reali:
+- errori JavaScript in console
+- immagini rotte o asset non caricati
+- link/CTA senza href o azione
+- FAQ/accordion/carousel non funzionanti, se presenti
+- overflow orizzontale
+- testo tagliato o sovrapposto
+- problemi responsive evidenti su mobile e desktop
+- animazioni che causano pagina bianca, contenuto invisibile, scroll bloccato o layout shift
+- problemi base di accessibilita': focus visibile, alt text ragionevole, prefers-reduced-motion
+
+VINCOLI ASSOLUTI
+Non ridisegnare.
+Non cambiare concept.
+Non cambiare struttura generale.
+Non cambiare stile visivo, palette, font, proporzioni o composizione se non serve per correggere un bug.
+Non aggiungere nuove sezioni.
+Non aggiungere nuovi contenuti creativi.
+Non sostituire le immagini se sono gia' funzionanti.
+Non trasformare il sito in un template generico.
+
+ANIMAZIONI
+Mantieni le animazioni esistenti se funzionano.
+Se rompono il sito, correggile mantenendo:
+- scroll reveal
+- parallax immagini
+- hover/micro-interazioni
+- fallback per prefers-reduced-motion
+
+OUTPUT RICHIESTO
+Restituisci una versione corretta del sito, mantenendo un singolo file HTML principale.
+Se modifichi file, indica esattamente cosa hai cambiato e perche'.
+
+VERIFICA OBBLIGATORIA
+Prima di consegnare, verifica:
+1. Desktop 1440px: nessun overflow orizzontale, nessuna pagina bianca.
+2. Mobile 390px: testo leggibile, niente sovrapposizioni gravi.
+3. Console: nessun errore JavaScript bloccante.
+4. Scroll: funziona fino al footer.
+5. Reduced motion: il sito resta visibile.
+
+Se un cambiamento non e' necessario per correggere un bug, non farlo.

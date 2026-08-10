@@ -1,0 +1,9 @@
+{
+  "target": "web",
+  "model": "GEMINI_3_1_PRO",
+  "mcp_url": "https://stitch.googleapis.com/mcp",
+  "mcp_auth_header": "X-Goog-Api-Key",
+  "prompt_file": "/Volumes/Extreme Pro/ROBOT_STITCH/STITCH_PROMPT_LATEST.txt",
+  "latest_batch_dir": "/Volumes/Extreme Pro/reference_slices_light/LATEST_BATCH",
+  "notes": "Always generate Stitch requests for Web and use modelId GEMINI_3_1_PRO. Never use App mode for this workflow."
+}

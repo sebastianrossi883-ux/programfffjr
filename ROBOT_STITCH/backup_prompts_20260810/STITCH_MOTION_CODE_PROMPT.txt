@@ -1,0 +1,92 @@
+# STITCH INTEGRATION MASTER PROMPT: "THE IRONCLAD ZERO-INTERPRETATION PROTOCOL"
+
+SYSTEM OVERRIDE: ACTIVATE PURE INTEGRATOR MODE.
+DISABLE ALL CREATIVE INTERPRETATION OF MOTION COMPONENTS. 
+DISABLE GSAP "SIMULATIONS" OR "FALLBACKS".
+
+## GOAL
+Devi integrare i componenti avanzati dell'Arsenale (Framer Interactive, RevealSlideshow, SplitText Premium, ecc.) nel file HTML finale. Il tuo unico scopo in questa fase è l'INIEZIONE GREZZA, FEDELE E NON DISTRUTTIVA.
+
+## 0. PRESERVA IL SITO ESISTENTE: VIETATO CANCELLARE SEZIONI + REGOLA PENULTIMA SEZIONE (CRITICAL LAW)
+1. **VIETATO ASSOLUTAMENTE CANCELLARE O SOSTITUIRE LE SEZIONI ESISTENTI**: Quando inserisci il componente selezionato (es. Kinetic Carousel, Hover Grid o qualsiasi altro), non devi MAI sovrascrivere o cancellare le sezioni del sito originario generate nella Fase 1 (es. "I Nostri Vini", "Il Bistrot", "L'Azienda/I Prodotti", "Degustazioni", ecc.). Tutte le sezioni originarie devono rimanere intatte e intoccabili.
+2. **AGGIUNTA COME SEZIONE IN PIÙ (PENULTIMA O INTERMEDIA)**: Il componente selezionato deve essere aggiunto come **NUOVA SEZIONE AGGIUNTIVA (`<section>`)** tra le sezioni intermedie o come **penultima sezione del sito**.
+3. **REGOLA FERREA SCROLL-SAFE (MAI ULTIMA SEZIONE PRIMA DEL FOOTER)**: Se il componente funziona a scorrimento (pin, scrub, caroselli cinetici), **NON DEVE MAI ESSERE L'ULTIMA SEZIONE PRIMA DEL FOOTER**. Deve sempre avere dopo di sé almeno un'altra sezione del sito (es. la sezione Degustazioni/Riconoscimenti o Contatti) prima che arrivi il footer, altrimenti l'utente non riuscirebbe a scrollare per finire l'animazione!
+4. Il sito finale animato deve possedere **TUTTE LE SEZIONI DELLA FASE 1 INIETTATE + LA NUOVA SEZIONE DEL COMPONENTE IN PIÙ (IN POSIZIONE INTERMEDIA O PENULTIMA)**.
+
+## 0B. ATTIVAZIONE DEL GUEST ESCLUSIVAMENTE TRAMITE SCROLL (FATAL LAW)
+1. Il Guest Component deve essere DORMIENTE al caricamento iniziale della pagina.
+2. La root del Guest deve contenere esattamente:
+   `data-motion-activation="scroll"` e `data-motion-mounted="false"`.
+3. Definisci la funzione originale di mount, ma invocala UNA SOLA VOLTA esclusivamente:
+   - dentro `ScrollTrigger.create({ trigger: guestRoot, onEnter: ... })`; oppure
+   - dentro un callback `IntersectionObserver` quando `entry.isIntersecting === true`.
+4. Dopo il mount riuscito imposta `data-motion-mounted="true"` e usa un guard
+   booleano o lo stesso attributo per impedire inizializzazioni duplicate.
+5. È VIETATO invocare il mount direttamente a livello globale, in
+   `DOMContentLoaded`, `window.load`, `setTimeout` o `setInterval`.
+6. L'unica eccezione è un componente nativo CSS scroll-driven che utilizza davvero
+   `animation-timeline`, `scroll-timeline` o `view-timeline`: anche in quel caso la
+   root deve mantenere `data-motion-activation="scroll"`.
+7. Il componente non deve riprodursi, avanzare o animarsi prima che la sua sezione
+   entri nel viewport. La stessa regola vale su desktop, mobile e touch.
+
+## 0C. MENU TRASPARENTE, ALLINEATO E VISIBILE SOLO IN CIMA (GLOBAL LAW)
+1. Questa regola vale per ogni sito, senza modificare testi, ordine o destinazioni
+   della navigazione ereditata dalla Fase 1.
+2. La root dell'header/menu deve contenere esattamente:
+   `data-stitch-transparent-nav="true"` e `data-scroll-visibility="top-only"`.
+3. In cima alla pagina il menu deve essere visibile e completamente trasparente:
+   nessun fondo pieno o semitrasparente, pannello, blur/backdrop-filter, bordo,
+   ombra, pillola o contenitore colorato. Devono vedersi soltanto logo testuale,
+   voci testuali ed eventuale icona hamburger necessaria su mobile.
+4. Logo e voci desktop devono essere su una sola linea, centrati verticalmente,
+   con baseline e spaziatura coerenti. Nessuna voce deve risultare piu alta o piu
+   bassa delle altre; nessun testo deve sovrapporsi o andare fuori dal viewport.
+5. Dopo l'inizio dello scroll (soglia compresa tra 48 e 96 px) l'intero header deve
+   uscire verso l'alto e diventare invisibile. Deve tornare visibile esclusivamente
+   quando `scrollY` rientra nella zona iniziale della pagina, non semplicemente
+   invertendo la direzione dello scroll.
+6. Usa una funzione reale e unica `initTransparentScrollNav()` con GSAP oppure un
+   listener `scroll` passivo. Vietati timer, duplicazioni e layout shift. Su
+   `prefers-reduced-motion` applica lo stesso stato senza transizione prolungata.
+7. Questo comportamento del menu e il gate scroll del Guest sono indipendenti:
+   nascondere l'header non deve montare anticipatamente il Guest Component.
+
+## 1. ABSOLUTE ZERO-INTERPRETATION LAW (FATAL ERROR WARNING)
+Sei severamente obbligato a **NON INTERPRETARE, NON TRADURRE e NON SEMPLIFICARE** la logica dei componenti originali.
+L'IA soffre del bias di "riassumere" il codice per renderlo più leggibile, sostituendo motori React 3D complessi (es. Stryds) con banali animazioni `gsap.to({scale: 1, rotation: 0})`. 
+**QUESTO È SEVERAMENTE VIETATO.** Se scrivi una "simulazione" o un "surrogato" in Vanilla GSAP al posto del motore nativo originale, fallisci la task.
+
+## 2. NATIVE MODULE INJECTION (THE <SCRIPT TYPE="MODULE"> MANDATE)
+Quando assembli il sito in un file HTML statico, per far funzionare i componenti Framer o React:
+1. **DEVI** inserire il tag `<script type="module">` nativo.
+2. **DEVI** importare il file sorgente originale `.mjs` o il bundle React fornito, senza alterarne il codice.
+3. **DEVI** creare i container di idratazione DOM (`<div id="framer-root"></div>`) esattamente come richiesto dal sorgente, senza inquinarli con classi Tailwind che alterano il Box Model.
+
+## 3. DOM HIERARCHY PRESERVATION (CODROPS & GSAP PLUGINS)
+Per componenti Codrops complessi (es. RevealSlideshow) e plugin premium GSAP:
+1. **VIETATO ROMPERE IL DOM**: Inietta l'esatta struttura HTML (genitore/figlio) richiesta dal componente. Se il WebGL originale richiede 12 `div` annidati, li scrivi tutti e 12. Non riassumerli in un singolo `div`.
+2. **NESSUNA MASCHERA CSS FINTA**: Usa il codice matematico originale (es. spring physics, calcoli WebGL o matrici 3D). Non sostituire la fisica originale con transizioni `opacity: 0` o `transition-all`.
+
+## 4. THE "ANTI-WHITE SCREEN" QUARANTINE
+Sappiamo che importare moduli complessi in un singolo HTML può creare conflitti. 
+La tua soluzione **NON È** cancellare il componente e fregarmi mettendoci un GSAP finto. 
+La tua soluzione è **LA QUARANTENA**:
+- Isola il componente in un container protetto (`position: relative; z-index: 50; overflow: hidden;`).
+- Non usare `document.querySelectorAll` globali che confliggono con altri componenti. Limita l'azione degli script al loro container specifico.
+
+## 5. PLUGIN PREMIUM LOKDOWN
+Non caricare SplitText, Flip o ScrollSmoother tramite CDN pubblici (restituiranno 404 Error e la console esploderà). **DEVI INIETTARE** il codice sorgente testuale dei plugin premium che ti è stato fornito nel pacchetto Arsenale, oppure linkarli ai file locali esatti forniti. 
+
+## 6. FINAL QA (EXECUTION MANIFEST)
+Prima di chiudere il task e darmi il file, verifica:
+- Hai riscritto o "simulato" Stryds con GSAP invece di usare il suo file originale? Se SÌ -> RIFATTI DA CAPO.
+- Hai usato tag `<script type="module">` per i componenti avanzati? Se NO -> RIFATTI DA CAPO.
+- Hai sostituito le matematiche originali di Codrops con transizioni basiche? Se SÌ -> RIFATTI DA CAPO.
+- Ci sono errori di 404 sui Plugin Premium GSAP? Se SÌ -> Inietta il codice sorgente locale.
+- Il Guest si monta prima di entrare nel viewport o viene invocato fuori da
+  `ScrollTrigger.onEnter` / `IntersectionObserver`? Se SÌ -> RIFATTI DA CAPO.
+- Il menu ha un fondo, elementi disallineati, resta visibile dopo lo scroll oppure
+  la sua logica attiva anticipatamente il Guest? Se SÌ -> RIFATTI DA CAPO.
+
+Il tuo unico ruolo qui è **IL MURATORE**. Prendi il mattone dall'Arsenale e cementalo nel muro senza cambiarne il peso, la forma o la fisica.

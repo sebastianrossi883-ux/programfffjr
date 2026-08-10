@@ -1,0 +1,80 @@
+/animate — APPLICA LA REGIA AI SEI SLOT DEL SITO CORRENTE
+
+Modifica la schermata selezionata. Non creare una schermata nuova, non
+rigenerare il sito, non cambiare ordine, contenuto, palette, tipografia o
+geometria. Il risultato statico deve restare identico: questo passaggio marca
+gli elementi gia' presenti per il motion kit della pipeline.
+
+## COSA DEVI FARE
+
+Leggi `CURRENT_MOTION_DIRECTION.md`. Per ciascuno slot, nell'ordine
+`[data-reference-slot="1"]` fino a `[data-reference-slot="6"]`, applica le classi `mk-*` indicate sulla riga
+**Bersagli nel markup esistente**.
+
+La regia deve animare la relazione tra gli elementi gia' disegnati, non il
+rettangolo della sezione intera: media dominante, pannello di testo,
+didascalia, titolo e CTA devono restare elementi distinti. Esempio: per una
+sezione con fotografia e lastra testo, la classe del media va sul wrapper della
+foto e quella del testo va sul pannello esistente; non mettere entrambe sul
+`<section>` e non fondere gli elementi.
+
+Usa solo elementi che esistono. Non creare foto, pannelli, overlay, wrapper,
+CTA, testi, card o sezioni per rendere possibile un effetto. Non degradare mai
+una firma incompatibile a un semplice `mk-reveal` e non lasciare lo slot con
+una marcatura parziale. Verifica invece i prerequisiti fisici e applica la
+prima firma compatibile non ancora usata secondo il fallback vincolato scritto
+in `CURRENT_MOTION_DIRECTION.md`. Ogni slot deve terminare con una firma
+dominante completa e diversa dalle altre cinque. Registra la decisione sullo
+stesso `<section>` con `data-motion-signature="id-della-firma-effettiva"`: e'
+un attributo tecnico invisibile usato dall'audit runtime, non testo da mostrare.
+
+## REGOLE DEL MOTORE
+
+Il file `STITCH_MOTION_PREVIEW_KIT.md` allegato contiene il motore canonico
+completo. Inserisci nella pagina ESATTAMENTE il suo unico blocco
+`<script id="stitch-motion-kit">...</script>`, una sola volta, letteralmente
+invariato e subito prima di `</body>`. Non riassumerlo, non riscriverlo, non
+sostituirlo con uno stub e non omettere righe. Lo SHA256 dichiarato
+nell'allegato identifica il blocco atteso.
+
+Prima del kit devono esistere una sola copia di GSAP 3.13.0, ScrollTrigger,
+SplitText, Flip e CustomEase e una sola copia di Lenis 1.3.25:
+`https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js`. Aggiungi
+soltanto la dipendenza mancante; non duplicare quelle gia' presenti. Il kit
+crea l'unica istanza Lenis e la sincronizza con ScrollTrigger.
+
+Non scrivere un secondo motore, altre timeline, listener scroll paralleli o
+CSS che selezioni `mk-*`. Il tuo codice motion e' esclusivamente il blocco
+canonico allegato; il tuo lavoro creativo consiste nell'assegnare con
+precisione le classi ai bersagli esistenti dei sei slot.
+
+Non nascondere contenuti nel CSS: il sito deve essere interamente leggibile
+senza JavaScript e con `prefers-reduced-motion`.
+
+## MARCATURE COMUNI
+
+- `mk-hero` sul contenuto gia' esistente della hero.
+- `mk-letters` sull'h1 e sugli h2 principali gia' esistenti.
+- `mk-line` solo su sottotitoli, kicker o titoli minori gia' esistenti.
+- `mk-magnetic` solo sulle CTA reali quando il piano seleziona `magnetic-cta`.
+- Un'immagine che deve muoversi resta nel suo wrapper esistente con
+  `overflow-hidden`; non cambiarne dimensioni, posizione o crop statico.
+
+## VINCOLI DI INTEGRITA'
+
+Devono restare esattamente sei sezioni sorelle, con gli id `#section-1` fino a
+`#section-6` e con `data-reference-slot="1"` fino a `"6"`. Il valore dello slot
+e' sempre numerico: non sostituirlo con nomi, etichette o file sorgente.
+
+Non eliminare `data-reference-slot`, non modificare menu, header, footer,
+link, immagini, testo o struttura per accomodare le classi. Non usare
+placeholder e non ristampare l'intero HTML.
+
+Non rendere visibili selettori o metadati tecnici. Il carattere `#` appartiene
+agli href e agli ID, mai ai titoli: non trasformare `#section-6` o un vecchio
+nome di ancora in testo come `06 #TITOLO`.
+
+Completa l'applicazione nel sito corrente. Come unica risposta finale, scrivi
+sei righe: slot, firma effettiva, elementi marcati e classi applicate. Se hai
+usato un fallback, indica `richiesta -> applicata`; non nascondere la
+sostituzione dietro formule come "effetto equivalente".

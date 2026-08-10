@@ -1,0 +1,29 @@
+{
+  "counts": {
+    "codrops-scroll-carousel": 1,
+    "hover-grid": 1
+  },
+  "history": [
+    {
+      "batch_fingerprint": "12802f40fd30f0e041c093def39e20fee1aca2719b8aca2477bc71f8c997d11c",
+      "component_id": "codrops-scroll-carousel",
+      "style_id": "horizontal-narrative"
+    },
+    {
+      "batch_fingerprint": "12802f40fd30f0e041c093def39e20fee1aca2719b8aca2477bc71f8c997d11c",
+      "component_id": "hover-grid",
+      "framer_id": "framer-stryds",
+      "style_id": "cinematic-depth"
+    }
+  ],
+  "last_component": "hover-grid",
+  "style_counts": {
+    "horizontal-narrative": 1,
+    "cinematic-depth": 1
+  },
+  "last_style": "cinematic-depth",
+  "framer_counts": {
+    "framer-stryds": 1
+  },
+  "last_framer": "framer-stryds"
+}

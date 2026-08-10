@@ -1,0 +1,445 @@
+Stitch
+
+CLAUSOLA DEFINITIVA: SOLO REFERENCE, ZERO INVENZIONE
+
+Non devi progettare. Devi trascrivere visivamente le reference in interfaccia.
+Ogni cosa che appare nel sito deve provenire dalle reference. Ogni cosa che appare nelle reference deve apparire nel sito.
+Devi usare ESCLUSIVAMENTE gli elementi presenti nelle reference.
+
+Non puoi aggiungere nulla che non sia visibile o deducibile direttamente dalle reference.
+
+Le reference sono l'unica fonte ammessa per:
+- struttura
+- sezioni
+- layout
+- testi
+- gerarchia
+- immagini
+- proporzioni
+- colori
+- tipografia
+- CTA
+- frecce
+- linee
+- loghi
+- numeri
+- footer
+- FAQ
+- news
+- gallery
+- spacing
+- micro-elementi
+
+---
+
+## REGOLA ZERO INVENZIONE
+
+E' vietato inventare:
+- nuovi testi
+- nuovi titoli
+- nuovi nomi
+- nuove sezioni
+- nuove immagini non coerenti
+- nuove card
+- nuovi layout
+- nuovi colori
+- nuovi bottoni
+- nuovi contenuti
+- nuove icone
+- nuove composizioni
+- nuove gerarchie
+
+Se un elemento non appare nelle reference, non inserirlo.
+
+Se un testo non appare nelle reference, non inventarlo: usa testo presente nelle reference o placeholder minimo coerente solo se necessario.
+
+---
+
+## REGOLA COPERTURA TOTALE
+
+Ogni elemento visibile nelle reference deve essere implementato.
+
+Non puoi scegliere.
+Non puoi filtrare.
+Non puoi dire che e' secondario.
+Non puoi ignorare micro-elementi.
+
+Devi implementare:
+- ogni sezione visibile
+- ogni blocco
+- ogni immagine/slot immagine
+- ogni titolo
+- ogni sottotitolo
+- ogni CTA
+- ogni freccia
+- ogni linea
+- ogni progress bar
+- ogni label
+- ogni numero
+- ogni +
+- ogni divider
+- ogni area footer
+- ogni area subscribe
+- ogni colonna
+- ogni partner/social/legal
+- ogni spazio bianco importante
+- ogni sovrapposizione
+- ogni immagine laterale parziale
+- ogni carousel
+
+---
+
+## PRIMA DI GENERARE: INVENTARIO OBBLIGATORIO
+
+Prima di generare il sito, crea una tabella:
+
+| Reference | Elemento visibile | Verra' implementato dove | Tipo |
+|---|---|---|---|
+
+Regole:
+- ogni reference deve avere tutti gli elementi visibili elencati
+- nessun elemento puo' restare fuori
+- nessuna reference puo' essere trattata come secondaria
+- non puoi procedere se l'inventario e' incompleto
+
+---
+
+## DURANTE LA GENERAZIONE
+
+Quando crei il sito:
+- ogni sezione deve derivare da una reference specifica
+- ogni blocco deve corrispondere a un elemento inventariato
+- ogni CTA deve derivare da una CTA vista nelle reference
+- ogni layout deve derivare da una composizione vista nelle reference
+- ogni micro-elemento deve derivare da un micro-elemento visto nelle reference
+
+Se stai per aggiungere qualcosa che non hai inventariato dalle reference, fermati e non inserirlo.
+
+---
+
+## DIVIETI ASSOLUTI
+
+E' vietato:
+- aggiungere sezioni non presenti
+- aggiungere immagini decorative nuove
+- usare testi creativi nuovi
+- cambiare brand
+- cambiare struttura
+- semplificare
+- accorpare
+- sostituire elementi complessi con elementi semplici
+- usare "stile luxury" come scusa
+- riempire vuoti con elementi inventati
+- eliminare elementi piccoli
+- ridurre footer, FAQ, news, gallery o carousel
+
+---
+
+## AUDIT FINALE
+
+Alla fine crea una tabella:
+
+| Elemento reference | Presente nel sito? | Dove appare | E' fedele? |
+|---|---|---|---|
+
+Tutti gli elementi devono avere:
+- Presente nel sito: SI
+- E' fedele: SI
+
+Se anche un solo elemento e' NO, correggi prima di consegnare.
+
+---
+
+## REGOLA AGGIUNTIVA: PULSANTI E LINK CLICCABILI
+
+Tutti i pulsanti, CTA, link, frecce, voci footer, social link e controlli
+visibili devono essere cliccabili o interattivi.
+
+E' vietato lasciare elementi cliccabili solo decorativi.
+
+Obbligatorio:
+- Book Now deve puntare a `#reservation`
+- Make a Reservation deve puntare a `#reservation`
+- Opening Hours deve puntare a `#opening-hours`
+- How To Reach Us deve puntare a `#location`
+- Learn More deve puntare alla sezione relativa
+- Read More deve puntare alla news relativa
+- View Menu deve puntare a `#menu`
+- Explore deve puntare a `#experiences`
+- Subscribe deve attivare il campo email o una conferma visiva
+- Le frecce gallery/carousel devono cambiare slide
+- I simboli `+` della FAQ devono aprire/chiudere la risposta
+- I link footer/social devono avere `href` coerenti o ancore interne
+
+Se non esiste una pagina reale, usa ancore interne coerenti.
+
+Non aggiungere nuovi elementi per far funzionare i link.
+Rendi cliccabili solo gli elementi gia' presenti nelle reference.
+
+---
+
+## REGOLA FUNZIONALE AGGIUNTIVA: NIENTE WIDGET ESTERNI E LINK REALI
+
+E' vietato inserire qualsiasi elemento non presente nelle reference, incluso:
+- chatbot
+- "Chat with us"
+- icone chat flottanti
+- popup
+- badge esterni
+- widget flottanti
+- banner inventati
+- elementi sticky non presenti nelle reference
+
+Se compare un chatbot, una scritta "Chat with us" o un'icona flottante non
+presente nelle reference, il risultato e' fallito e va corretto.
+
+Tutti i pulsanti, link, CTA, frecce, accordion e controlli visibili devono
+essere funzionanti.
+
+Obbligatorio:
+- ogni bottone deve avere una destinazione o un'azione
+- ogni link footer deve essere cliccabile
+- ogni CTA deve puntare a una sezione coerente
+- le frecce gallery/carousel devono cambiare contenuto
+- i simboli `+` delle FAQ devono aprire/chiudere la risposta
+- Subscribe deve avere campo email e bottone funzionante
+
+Se non esiste una destinazione reale, usa ancore interne coerenti:
+- #reservation
+- #menu
+- #gallery
+- #experiences
+- #news
+- #partners
+- #faq
+- #footer
+
+E' vietato lasciare bottoni decorativi senza azione.
+E' vietato aggiungere controlli che non derivano dalle reference.
+
+CRITICAL REFERENCE USAGE RULE
+
+The uploaded images are DESIGN REFERENCES only.
+
+They are NOT content assets.
+They are NOT photography assets.
+They are NOT restaurant images to place inside the website.
+They are NOT screenshots to embed in the page.
+They are NOT gallery images.
+They are NOT cards.
+They are NOT thumbnails.
+They are NOT background images.
+
+Do NOT place the uploaded reference screenshots anywhere inside the final website.
+
+Do NOT use the reference screenshots as:
+
+* hero images
+* section images
+* gallery images
+* card images
+* background images
+* mockup images
+* preview images
+* small inset images
+* decorative images
+* image strips
+* thumbnails
+
+The reference screenshots must never appear visually inside the final page.
+
+Use the uploaded references only as structural blueprints.
+
+TWO COMPLETE REFERENCES RULE
+
+The uploaded images are two complete website references.
+Each complete reference is split into 3 parts.
+Together, they become 6 uploaded images.
+
+Do not treat the 6 images as one single long reference.
+Do not treat the 6 images as six unrelated moodboard images.
+
+Treat them as:
+
+* Reference A / part 01 of 3 = top of complete website A
+* Reference A / part 02 of 3 = middle of complete website A
+* Reference A / part 03 of 3 = bottom of complete website A
+* Reference B / part 01 of 3 = top of complete website B
+* Reference B / part 02 of 3 = middle of complete website B
+* Reference B / part 03 of 3 = bottom of complete website B
+
+You must study both complete references.
+Both Reference A and Reference B must influence the final website structure.
+
+Reference A contributes one complete top/middle/bottom structural system.
+Reference B contributes a second complete top/middle/bottom structural system.
+
+The final website must combine the structural logic of the two complete references without compressing them into a short collage.
+Do not simply pick one reference and ignore the other.
+Do not import random sections from one reference into the other.
+Do not add sections only because this is a restaurant website.
+
+Use the shared structural decisions between the two references as the main blueprint:
+
+* how the hero behaves
+* how image/text sections are proportioned
+* how large image masses are placed
+* how small images are placed
+* how whitespace is used
+* how text columns are sized
+* how captions and micro-labels work
+* how dark/light sections transition
+* how contact/footer areas are structured
+
+If Reference A and Reference B differ, preserve the stronger structural idea from the reference that better matches that section, while keeping the overall page coherent.
+
+Your task is to extract their design logic, not to display them.
+
+You must analyze both references as website layouts:
+
+* section order
+* section count
+* hero structure
+* image/text rhythm
+* image proportions
+* large image placement
+* small image placement
+* spacing
+* margins
+* asymmetry
+* typography hierarchy
+* caption logic
+* micro-labels
+* thin lines
+* footer structure
+* color palette
+* visual pacing
+* editorial rhythm
+
+Then rebuild a new Italian restaurant website using that extracted structure.
+
+Replace the reference images with new restaurant-appropriate imagery.
+
+Use images that belong to the new restaurant concept:
+
+* chef gestures
+* plated dishes
+* dining room atmosphere
+* wine details
+* ingredients
+* table settings
+* interiors
+* hospitality moments
+* exterior or territory details if coherent
+
+But place those new images according to the structure of the references.
+
+The references control the layout.
+The references control the rhythm.
+The references control the proportions.
+The references control the spacing.
+The references control the editorial system.
+
+The references do NOT provide the final images.
+
+ANTI-SCREENSHOT RULE
+
+If the final website contains visible screenshots of the uploaded references, the result is wrong.
+
+If the final website contains a miniature version of the uploaded reference page, the result is wrong.
+
+If the final website uses the reference as a photo inside a section, the result is wrong.
+
+If the final website looks like it pasted the reference inside the page instead of rebuilding its structure, the result is wrong.
+
+REFERENCE EXTRACTION METHOD
+
+For each visible section in each complete reference, extract:
+
+1. What is the section type?
+2. Is the section image-dominant or text-dominant?
+3. Where is the text positioned?
+4. How large is the main image?
+5. Are there small inset images?
+6. Are there captions?
+7. Are there thin lines or labels?
+8. Is the composition centered, asymmetric, overlapping, or grid-based?
+9. How much whitespace surrounds the section?
+10. How does this section transition into the next?
+
+Then recreate that same section logic using new restaurant content.
+
+Do not copy the screenshot.
+Rebuild the layout.
+
+CORRECT EXAMPLE
+
+Wrong:
+Place the uploaded reference screenshot as an image inside the new website.
+
+Correct:
+Look at the reference section, understand that it uses a large image on the right, a narrow text block on the left, a tiny caption below the image, and a thin divider line. Then rebuild that same composition with a new restaurant photo and Italian copy.
+
+Wrong:
+Use a screenshot of the reference as a gallery image.
+
+Correct:
+Use the reference gallery structure, but replace every image with real restaurant imagery.
+
+Wrong:
+Create a small preview of the reference page inside the new design.
+
+Correct:
+Translate the reference's structure into a new original page.
+
+FINAL CHECK BEFORE FINISHING
+
+Before finalizing, verify:
+
+1. Are any uploaded reference screenshots visible inside the final website?
+2. Are any reference screenshots used as image assets?
+3. Did I paste the reference instead of rebuilding it?
+4. Did I use both references only as structural blueprints?
+5. Did I replace all visual content with new restaurant imagery?
+6. Did both complete references influence the final structure?
+7. Did I avoid compressing two complete references into a short collage?
+8. Did I avoid inventing sections that are not structurally present in the references?
+9. Did I create a complete website, not a one-section or two-section fragment?
+10. Does the page contain at least 6 meaningful visible sections when the references contain enough structure?
+11. Are there no huge accidental blank gaps, no broken image slots, and no unfinished placeholder areas?
+
+If any reference screenshot appears inside the final page, remove it and rebuild that section properly.
+
+COMPLETENESS RULE INSIDE THE FIRST GENERATION
+
+Do this completeness check during the first generation, not as a later revision.
+
+The final website must not be a short fragment.
+It must be a complete restaurant website derived from the uploaded references.
+
+When two complete references are uploaded, the output must normally include at least 6 meaningful visible sections:
+
+1. Hero / opening
+2. Identity / philosophy / about
+3. Cuisine / menu / dishes
+4. Experience / wine / chef / place / gallery
+5. Practical information / booking / FAQ / news / location
+6. Contact / footer
+
+A meaningful section is a real visible block with layout, content, image or functional information.
+Empty spacers, blank bands, isolated labels, or decorative gaps do not count.
+
+If the references contain more section logic, preserve that section rhythm instead of compressing it.
+Do not create a one-section page.
+Do not create only a hero plus one body block.
+Do not end the page abruptly.
+Do not leave huge white empty areas.
+Do not leave broken image placeholders.
+
+If a section is missing, create it inside this first output using the structural logic already visible in the references.
+Do not wait for a later correction prompt.
+
+Final rule:
+
+Use the uploaded references as design blueprints only.
+Never use them as visible images in the final website.

@@ -1,0 +1,40 @@
+{
+  "batch_fingerprint": "12802f40fd30f0e041c093def39e20fee1aca2719b8aca2477bc71f8c997d11c",
+  "manifest_version": "arsenal-v7.1",
+  "component_id": "hover-grid",
+  "component_name": "Codrops Hover Grid",
+  "function_name": "mountHoverGrid",
+  "dom_value": "HoverGridOriginal",
+  "required_tokens": [
+    "clipPathDirections",
+    "tlEnter",
+    "tlLeave"
+  ],
+  "authenticity": "portable_original",
+  "source_hashes": {
+    "css/base.css": "bde861626b156e44450448cacf79f6837df61ef2414091201ec3e2cc6c7f601d",
+    "index.html": "3eeb997aa1ba7feb08439590fbd4fa7a2ba476ef95b00765dfc2bcf805265013",
+    "js/gsap.min.js": "28033e449a31ebcc396e5be8b13b63152bf03094288fb5867034321927bce087",
+    "js/imagesloaded.pkgd.min.js": "86dacb15f649eafe6e74e1bede434b20d20a87682fa0aab01211d87d34cc2027",
+    "js/index.js": "fb4b1efac5e7c9c689ac9de37dc487c302d416c6bff07c0ba75e37452038157b",
+    "js/utils.js": "aa26851e642452aaee2bf95ca51b3978b8da373339ef1cd5c8753b970de59deb"
+  },
+  "framer_id": "framer-stryds",
+  "framer_name": "Framer Stryds Interactive",
+  "framer_function_name": "StrydsInteractiveReact",
+  "framer_dom_value": "StrydsInteractiveOriginal",
+  "framer_required_tokens": [
+    "useGSAP",
+    "ScrollTrigger",
+    "clipPath",
+    "scrub: 1"
+  ],
+  "framer_source_hash": "4773531927ac5c6aed0cc46fb9799a7f1493ed8a169ce2daaa4bd273243219a9",
+  "framer_source_mode": "portable_react",
+  "style_id": "cinematic-depth",
+  "style_name": "Cinematic Depth",
+  "generated_bundle": "/Users/utente/Downloads/reference_splitter/generated_motion/SELECTED_COMPONENT_FOR_STITCH.md",
+  "generated_framer_bundle": "/Users/utente/Downloads/reference_splitter/generated_motion/SELECTED_FRAMER_FOR_STITCH.md",
+  "motion_contract": "## ASSIGNMENT BLOCCANTE\n\n- Guest Component: `Codrops Hover Grid` (`hover-grid`)\n- Framer Interactive: `Framer Stryds Interactive` (`framer-stryds`)\n- Regia GSAP: `Cinematic Depth` (`cinematic-depth`): depth scale, parole in controtempo, parallax 10-14%.\n\nI quattro file allegati sono sorgenti eseguibili, non ispirazione. Integra codice,\nDOM e matematica originali. Vietati riassunti, surrogati, adapter vuoti e TODO.\nGuest e Framer devono esistere una sola volta e attivarsi quando raggiunti dallo scroll.\nIl Guest deve restare inattivo al caricamento iniziale e montarsi una sola volta\nesclusivamente da `ScrollTrigger.create({ onEnter: ... })` oppure dal callback\n`IntersectionObserver` quando `entry.isIntersecting === true`. Sono vietate chiamate\ndirette al mount a livello globale, in `DOMContentLoaded`, `load`, `setTimeout` o\n`setInterval`. L'unica eccezione e un componente nativo CSS scroll-driven che usa\nrealmente `animation-timeline`, `scroll-timeline` o `view-timeline`.\n\nOBBLIGO DI COPERTURA:\n- ogni sezione ha entrata, progressione durante lo scroll e uscita;\n- ogni elemento significativo riceve `data-motion-role`: logo, nav, title, body, media, caption, cta, icon, control, footer;\n- usa almeno sei valori distinti di `data-motion-family`;\n- ogni `<section>` riceve `data-motion-section`, `data-motion-entry`,\n  `data-motion-traverse` e `data-motion-exit`;\n- menu, CTA e controlli restano funzionanti e il layout non cambia.\n\nMENU GLOBALE OBBLIGATORIO:\n- root con `data-stitch-transparent-nav=\"true\"` e `data-scroll-visibility=\"top-only\"`;\n- in cima e visibile, completamente trasparente e privo di fondo, blur, bordo e ombra;\n- logo e link testuali allineati su una sola linea e centrati verticalmente;\n- dopo 48-96 px scompare verso l'alto e ritorna solo nella zona iniziale;\n- funzione reale `initTransparentScrollNav()` indipendente dal gate scroll Guest.\n\nFirme obbligatorie:\n```html\n<div data-stitch-native-component=\"hover-grid\"\n     data-motion-component=\"HoverGridOriginal\"\n     data-motion-activation=\"scroll\"\n     data-motion-mounted=\"false\"></div>\n<div data-stitch-framer-interaction=\"framer-stryds\"\n     data-motion-framer=\"StrydsInteractiveOriginal\"></div>\n<script>\nwindow.__STITCH_SELECTED_COMPONENT__ = \"hover-grid\";\nwindow.__STITCH_SELECTED_FRAMER__ = \"framer-stryds\";\nwindow.__STITCH_MOTION_STYLE__ = \"cinematic-depth\";\nwindow.__STITCH_MOTION_MANIFEST__ = \"arsenal-v7.1\";\nwindow.__STITCH_GUEST_SOURCE_SHA256__ = [\"28033e449a31ebcc396e5be8b13b63152bf03094288fb5867034321927bce087\", \"3eeb997aa1ba7feb08439590fbd4fa7a2ba476ef95b00765dfc2bcf805265013\", \"86dacb15f649eafe6e74e1bede434b20d20a87682fa0aab01211d87d34cc2027\", \"aa26851e642452aaee2bf95ca51b3978b8da373339ef1cd5c8753b970de59deb\", \"bde861626b156e44450448cacf79f6837df61ef2414091201ec3e2cc6c7f601d\", \"fb4b1efac5e7c9c689ac9de37dc487c302d416c6bff07c0ba75e37452038157b\"];\nwindow.__STITCH_FRAMER_SOURCE_SHA256__ = \"4773531927ac5c6aed0cc46fb9799a7f1493ed8a169ce2daaa4bd273243219a9\";\n</script>\n```\n\nDefinisci realmente `mountHoverGrid`, ma invocala soltanto dal gate di\nscroll descritto sopra. Nel callback, dopo il mount riuscito, imposta\n`data-motion-mounted=\"true\"`; usa un guard booleano o questo attributo per impedire\nmount duplicati. Per la Framer,\nmonta il componente React/TSX con `<script type=\"module\">`; definisci e invoca realmente `StrydsInteractiveReact` come\nwrapper di inizializzazione isolato, senza simulazioni o sostituzioni.",
+  "final_audit": "\n\nAUDIT SELEZIONE BLOCCANTE:\n- una root Guest `hover-grid` con `data-motion-activation=\"scroll\"`;\n- funzione `mountHoverGrid` definita e invocata una sola volta esclusivamente\n  da `ScrollTrigger.onEnter` o `IntersectionObserver`; nessuna inizializzazione eager;\n- una root Framer `framer-stryds`, componente `StrydsInteractiveReact` montato e invocato;\n- manifesto `arsenal-v7.1` e regia `cinematic-depth` presenti;\n- hash Guest dichiarati: `28033e449a31ebcc396e5be8b13b63152bf03094288fb5867034321927bce087, 3eeb997aa1ba7feb08439590fbd4fa7a2ba476ef95b00765dfc2bcf805265013, 86dacb15f649eafe6e74e1bede434b20d20a87682fa0aab01211d87d34cc2027, aa26851e642452aaee2bf95ca51b3978b8da373339ef1cd5c8753b970de59deb, bde861626b156e44450448cacf79f6837df61ef2414091201ec3e2cc6c7f601d, fb4b1efac5e7c9c689ac9de37dc487c302d416c6bff07c0ba75e37452038157b`;\n- hash Framer dichiarato: `4773531927ac5c6aed0cc46fb9799a7f1493ed8a169ce2daaa4bd273243219a9`;\n- almeno sei famiglie motion; ogni sezione ha entry/traverse/exit;\n- ruoli motion su logo, nav, titoli, testo, media, caption, CTA, icone, controlli e footer;\n- nessun errore console, overflow, immagine rotta, contenuto invisibile o link/menu inattivo.\n- menu trasparente e allineato in cima, nascosto dopo lo scroll, senza attivare il Guest;\nCorreggi fisicamente prima di terminare. Non ridisegnare il sito.\n"
+}

@@ -1,0 +1,1344 @@
+{
+  "components_root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti",
+  "animations_root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI",
+  "component_count": 31,
+  "framer_count": 13,
+  "component_source_directory_count": 135,
+  "framer_source_directory_count": 13,
+  "components": [
+    {
+      "id": "codrops-scroll-carousel",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/CodropsCarousels-main",
+      "files": 15,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "reveal-slideshow",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/RevealSlideshow-master",
+      "files": 6,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "onscroll-filter",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OnScrollFilter-main",
+      "files": 9,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "hover-grid",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/HoverGrid-main",
+      "files": 6,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "one-element-scroll",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OneElementScroll-main",
+      "files": 10,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "scroll-shape-morph",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OnScrollShapeMorph-main",
+      "files": 10,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "grid-view-switch",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GridViewSwitch-main",
+      "files": 7,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "image-to-content",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ImageToContent-main",
+      "files": 8,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "unreveal-effects",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/UnrevealEffects-main",
+      "files": 11,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "sticky-sections",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/StickySections-main",
+      "files": 36,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "intro-trail",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/IntroTrailEffect-main",
+      "files": 9,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "image-stack-grid",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ImageStackGrid-main",
+      "files": 14,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "draggable-grid",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/draggable-grid-main",
+      "files": 11,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "page-flip-layout",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/PageFlipLayout-master",
+      "files": 5,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "diagonal-thumbnails",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/DiagonalThumbnails-master",
+      "files": 17,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "scroll-panels",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ScrollPanels-main",
+      "files": 13,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "crossroads-slideshow",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/CrossroadsSlideshow-master/CrossroadsSlideshow-master",
+      "files": 10,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "sticky-grid-scroll",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/codrops-sticky-grid-scroll-main",
+      "files": 8,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "flip-toggle-view",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GSAP Flip - Toggle View",
+      "files": 3,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "scroll-transition",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Scroll-Transition-main",
+      "files": 12,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "exhibition-rooms",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Exhibition-master",
+      "files": 6,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "segment-effect",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/SegmentEffect-master",
+      "files": 12,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "kinetic-gradient-slider",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gradientslider-main",
+      "files": 4,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "codrops-parallax-slider",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/codrops-parallax-slider-master",
+      "files": 21,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "telescope-zoom",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/telescope-zoom-main",
+      "files": 8,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "premium-flip-gallery",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_016_PREMIUM_FLIP",
+      "files": 2,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "kettmeir-cinematic-hero",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_017_KETTMEIR_HERO",
+      "files": 16,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "morphing-page-transition",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/MorphingPageTransition-master",
+      "files": 16,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "outdoors-transition",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OutdoorsTemplate-master",
+      "files": 7,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "theodore-menu-transition",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Theodore-main",
+      "files": 8,
+      "status": "portable_original_verified"
+    },
+    {
+      "id": "perspective-scroll-gallery",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gsap-scrolltrigger-main",
+      "files": 11,
+      "status": "portable_original_verified"
+    }
+  ],
+  "component_archive_inventory": [
+    {
+      "id": "cartella senza nome",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/cartella senza nome",
+      "file_count": 557,
+      "status": "collection_or_library_not_rotated",
+      "reason": "aggregate archive containing several source projects"
+    },
+    {
+      "id": "cartella senza nome 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/cartella senza nome 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "cartella senza nome 3",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/cartella senza nome 3",
+      "file_count": 1767,
+      "status": "suffix_copy_ignored",
+      "reason": "duplicate directory with numeric suffix"
+    },
+    {
+      "id": "cartella senza nome 4",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/cartella senza nome 4",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "cartella senza nome 5",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/cartella senza nome 5",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "cartella senza nome 6",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/cartella senza nome 6",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "codrops-parallax-slider-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/codrops-parallax-slider-master",
+      "file_count": 28,
+      "status": "portable_original_verified",
+      "reason": "rotation id: codrops-parallax-slider"
+    },
+    {
+      "id": "codrops-parallax-slider-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/codrops-parallax-slider-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "codrops-react-library",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/codrops-react-library",
+      "file_count": 362,
+      "status": "collection_or_library_not_rotated",
+      "reason": "React conversion collection, not one autonomous component"
+    },
+    {
+      "id": "codrops-react-library 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/codrops-react-library 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "codrops-sticky-grid-scroll-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/codrops-sticky-grid-scroll-main",
+      "file_count": 26,
+      "status": "portable_original_verified",
+      "reason": "rotation id: sticky-grid-scroll"
+    },
+    {
+      "id": "codrops-sticky-grid-scroll-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/codrops-sticky-grid-scroll-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "CodropsCarousels-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/CodropsCarousels-main",
+      "file_count": 35,
+      "status": "portable_original_verified",
+      "reason": "rotation id: codrops-scroll-carousel"
+    },
+    {
+      "id": "CodropsCarousels-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/CodropsCarousels-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "CrossroadsSlideshow-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/CrossroadsSlideshow-master",
+      "file_count": 17,
+      "status": "portable_original_verified",
+      "reason": "rotation id: crossroads-slideshow"
+    },
+    {
+      "id": "CrossroadsSlideshow-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/CrossroadsSlideshow-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "delphi-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/delphi-main",
+      "file_count": 55,
+      "status": "collection_or_library_not_rotated",
+      "reason": "complete AI Studio application, not a portable Guest Component"
+    },
+    {
+      "id": "delphi-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/delphi-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "DiagonalThumbnails-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/DiagonalThumbnails-master",
+      "file_count": 68,
+      "status": "portable_original_verified",
+      "reason": "rotation id: diagonal-thumbnails"
+    },
+    {
+      "id": "DiagonalThumbnails-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/DiagonalThumbnails-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "draggable-grid-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/draggable-grid-main",
+      "file_count": 75,
+      "status": "portable_original_verified",
+      "reason": "rotation id: draggable-grid"
+    },
+    {
+      "id": "draggable-grid-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/draggable-grid-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "Exhibition-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Exhibition-master",
+      "file_count": 50,
+      "status": "portable_original_verified",
+      "reason": "rotation id: exhibition-rooms"
+    },
+    {
+      "id": "Exhibition-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Exhibition-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "flat-surface-shader-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/flat-surface-shader-master",
+      "file_count": 27,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "shader engine"
+    },
+    {
+      "id": "flat-surface-shader-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/flat-surface-shader-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "golden-vault",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/golden-vault",
+      "file_count": 67,
+      "status": "collection_or_library_not_rotated",
+      "reason": "Golden component collection, not one autonomous component"
+    },
+    {
+      "id": "golden-vault 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/golden-vault 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_006_HORIZONTAL_PARALLAX",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_006_HORIZONTAL_PARALLAX",
+      "file_count": 30,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "Three.js/WebGL variant"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_006_HORIZONTAL_PARALLAX 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_006_HORIZONTAL_PARALLAX 2",
+      "file_count": 30,
+      "status": "suffix_copy_ignored",
+      "reason": "duplicate directory with numeric suffix"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_006_HORIZONTAL_PARALLAX_REACT_FINAL",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_006_HORIZONTAL_PARALLAX_REACT_FINAL",
+      "file_count": 23,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "Three.js/WebGL React variant"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_007_PARALLAX_SLIDER",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_007_PARALLAX_SLIDER",
+      "file_count": 40,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: codrops-parallax-slider-master"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_007_PARALLAX_SLIDER 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_007_PARALLAX_SLIDER 2",
+      "file_count": 40,
+      "status": "suffix_copy_ignored",
+      "reason": "duplicate directory with numeric suffix"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_008_STICKY_GRID",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_008_STICKY_GRID",
+      "file_count": 54,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: codrops-sticky-grid-scroll-main"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_008_STICKY_GRID 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_008_STICKY_GRID 2",
+      "file_count": 54,
+      "status": "suffix_copy_ignored",
+      "reason": "duplicate directory with numeric suffix"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_009_EXHIBITION",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_009_EXHIBITION",
+      "file_count": 61,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: Exhibition-master"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_009_EXHIBITION 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_009_EXHIBITION 2",
+      "file_count": 61,
+      "status": "suffix_copy_ignored",
+      "reason": "duplicate directory with numeric suffix"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_010_HOVER_GRID",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_010_HOVER_GRID",
+      "file_count": 42,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: HoverGrid-main"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_011_INFINITE_CANVAS",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_011_INFINITE_CANVAS",
+      "file_count": 246,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "canvas engine"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_012_INTRO_TRAIL",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_012_INTRO_TRAIL",
+      "file_count": 30,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: IntroTrailEffect-main"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_013_MORPHING_2D",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_013_MORPHING_2D",
+      "file_count": 144,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "Canvas2D engine"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_013_MORPHING_2D_BACKUP",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_013_MORPHING_2D_BACKUP",
+      "file_count": 144,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "backup of Canvas2D engine"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_014_MORPHING_PAGE_TRANSITION",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_014_MORPHING_PAGE_TRANSITION",
+      "file_count": 25,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: MorphingPageTransition-master"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_015_ONE_ELEMENT_SCROLL",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_015_ONE_ELEMENT_SCROLL",
+      "file_count": 55,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: OneElementScroll-main"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_016_ON_SCROLL_FILTER",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_016_ON_SCROLL_FILTER",
+      "file_count": 26,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: OnScrollFilter-main"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_016_PREMIUM_FLIP",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_016_PREMIUM_FLIP",
+      "file_count": 2,
+      "status": "portable_original_verified",
+      "reason": "rotation id: premium-flip-gallery"
+    },
+    {
+      "id": "GOLDEN_ARTISANAL_017_KETTMEIR_HERO",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GOLDEN_ARTISANAL_017_KETTMEIR_HERO",
+      "file_count": 27,
+      "status": "portable_original_verified",
+      "reason": "rotation id: kettmeir-cinematic-hero"
+    },
+    {
+      "id": "gooey-hover-codrops-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gooey-hover-codrops-master",
+      "file_count": 105,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "WebGL/GLSL effect"
+    },
+    {
+      "id": "gooey-hover-codrops-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gooey-hover-codrops-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "gradientslider-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gradientslider-main",
+      "file_count": 16,
+      "status": "portable_original_verified",
+      "reason": "rotation id: kinetic-gradient-slider"
+    },
+    {
+      "id": "gradientslider-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gradientslider-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "GridViewSwitch",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GridViewSwitch",
+      "file_count": 39,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: GridViewSwitch-main"
+    },
+    {
+      "id": "GridViewSwitch 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GridViewSwitch 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "GridViewSwitch-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GridViewSwitch-main",
+      "file_count": 39,
+      "status": "portable_original_verified",
+      "reason": "rotation id: grid-view-switch"
+    },
+    {
+      "id": "GridViewSwitch-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GridViewSwitch-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "GridViewSwitch_Michelin",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GridViewSwitch_Michelin",
+      "file_count": 39,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: GridViewSwitch-main"
+    },
+    {
+      "id": "GridViewSwitch_Michelin 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GridViewSwitch_Michelin 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "GSAP Flip - Toggle View",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GSAP Flip - Toggle View",
+      "file_count": 7,
+      "status": "portable_original_verified",
+      "reason": "rotation id: flip-toggle-view"
+    },
+    {
+      "id": "GSAP Flip - Toggle View 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GSAP Flip - Toggle View 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "GSAP-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GSAP-master",
+      "file_count": 180,
+      "status": "collection_or_library_not_rotated",
+      "reason": "support library, not a Guest Component"
+    },
+    {
+      "id": "GSAP-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GSAP-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "gsap-scrolltrigger-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gsap-scrolltrigger-main",
+      "file_count": 21,
+      "status": "portable_original_verified",
+      "reason": "rotation id: perspective-scroll-gallery"
+    },
+    {
+      "id": "gsap-scrolltrigger-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gsap-scrolltrigger-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "gsap-threejs-codrops-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gsap-threejs-codrops-master",
+      "file_count": 40,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "Three.js/GLSL effect"
+    },
+    {
+      "id": "gsap-threejs-codrops-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gsap-threejs-codrops-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "gsap-threejs-codrops-master 3",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gsap-threejs-codrops-master 3",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "gsap-threejs-codrops-master 4",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/gsap-threejs-codrops-master 4",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "GsapThreejs_Michelin_Wipe",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/GsapThreejs_Michelin_Wipe",
+      "file_count": 40,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "Three.js/GLSL effect"
+    },
+    {
+      "id": "horizontal-parallax-gallery-codrops-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/horizontal-parallax-gallery-codrops-master",
+      "file_count": 23,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "source imports Three.js and shader code"
+    },
+    {
+      "id": "horizontal-parallax-gallery-codrops-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/horizontal-parallax-gallery-codrops-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "HoverGrid-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/HoverGrid-main",
+      "file_count": 32,
+      "status": "portable_original_verified",
+      "reason": "rotation id: hover-grid"
+    },
+    {
+      "id": "HoverGrid-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/HoverGrid-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "ImageStackGrid-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ImageStackGrid-main",
+      "file_count": 55,
+      "status": "portable_original_verified",
+      "reason": "rotation id: image-stack-grid"
+    },
+    {
+      "id": "ImageStackGrid-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ImageStackGrid-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "ImageToContent-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ImageToContent-main",
+      "file_count": 109,
+      "status": "portable_original_verified",
+      "reason": "rotation id: image-to-content"
+    },
+    {
+      "id": "ImageToContent-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ImageToContent-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "infinite-canvas-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/infinite-canvas-main",
+      "file_count": 245,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "canvas engine"
+    },
+    {
+      "id": "infinite-canvas-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/infinite-canvas-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "IntroTrailEffect-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/IntroTrailEffect-main",
+      "file_count": 27,
+      "status": "portable_original_verified",
+      "reason": "rotation id: intro-trail"
+    },
+    {
+      "id": "IntroTrailEffect-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/IntroTrailEffect-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "morphing-2d-demo-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/morphing-2d-demo-main",
+      "file_count": 132,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "Canvas2D engine"
+    },
+    {
+      "id": "morphing-2d-demo-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/morphing-2d-demo-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "MorphingPageTransition-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/MorphingPageTransition-master",
+      "file_count": 25,
+      "status": "portable_original_verified",
+      "reason": "rotation id: morphing-page-transition"
+    },
+    {
+      "id": "MorphingPageTransition-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/MorphingPageTransition-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "OneElementScroll-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OneElementScroll-main",
+      "file_count": 30,
+      "status": "portable_original_verified",
+      "reason": "rotation id: one-element-scroll"
+    },
+    {
+      "id": "OneElementScroll-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OneElementScroll-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "OnScrollFilter-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OnScrollFilter-main",
+      "file_count": 21,
+      "status": "portable_original_verified",
+      "reason": "rotation id: onscroll-filter"
+    },
+    {
+      "id": "OnScrollFilter-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OnScrollFilter-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "OnScrollFilterReact",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OnScrollFilterReact",
+      "file_count": 24,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: OnScrollFilter-main"
+    },
+    {
+      "id": "OnScrollFilterReact 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OnScrollFilterReact 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "OnScrollShapeMorph-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OnScrollShapeMorph-main",
+      "file_count": 30,
+      "status": "portable_original_verified",
+      "reason": "rotation id: scroll-shape-morph"
+    },
+    {
+      "id": "OnScrollShapeMorph-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OnScrollShapeMorph-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "OutdoorsTemplate-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OutdoorsTemplate-master",
+      "file_count": 20,
+      "status": "portable_original_verified",
+      "reason": "rotation id: outdoors-transition"
+    },
+    {
+      "id": "OutdoorsTemplate-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/OutdoorsTemplate-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "PageFlipLayout-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/PageFlipLayout-master",
+      "file_count": 25,
+      "status": "portable_original_verified",
+      "reason": "rotation id: page-flip-layout"
+    },
+    {
+      "id": "PageFlipLayout-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/PageFlipLayout-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "RevealSlideshow",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/RevealSlideshow",
+      "file_count": 25,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: RevealSlideshow-master"
+    },
+    {
+      "id": "RevealSlideshow 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/RevealSlideshow 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "RevealSlideshow-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/RevealSlideshow-master",
+      "file_count": 15,
+      "status": "portable_original_verified",
+      "reason": "rotation id: reveal-slideshow"
+    },
+    {
+      "id": "RevealSlideshow-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/RevealSlideshow-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "RevealSlideshowReact",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/RevealSlideshowReact",
+      "file_count": 25,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: RevealSlideshow-master"
+    },
+    {
+      "id": "RevealSlideshowReact 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/RevealSlideshowReact 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "Scroll-Transition-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Scroll-Transition-main",
+      "file_count": 24,
+      "status": "portable_original_verified",
+      "reason": "rotation id: scroll-transition"
+    },
+    {
+      "id": "Scroll-Transition-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Scroll-Transition-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "ScrollPanels-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ScrollPanels-main",
+      "file_count": 89,
+      "status": "portable_original_verified",
+      "reason": "rotation id: scroll-panels"
+    },
+    {
+      "id": "ScrollPanels-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/ScrollPanels-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "SegmentEffect-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/SegmentEffect-master",
+      "file_count": 21,
+      "status": "portable_original_verified",
+      "reason": "rotation id: segment-effect"
+    },
+    {
+      "id": "SegmentEffect-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/SegmentEffect-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "SegmentEffectReact",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/SegmentEffectReact",
+      "file_count": 37,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: SegmentEffect-master"
+    },
+    {
+      "id": "SegmentEffectReact 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/SegmentEffectReact 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "Shader-Image-Transition-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Shader-Image-Transition-main",
+      "file_count": 20,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "shader engine"
+    },
+    {
+      "id": "Shader-Image-Transition-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Shader-Image-Transition-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "StickySections-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/StickySections-main",
+      "file_count": 53,
+      "status": "portable_original_verified",
+      "reason": "rotation id: sticky-sections"
+    },
+    {
+      "id": "StickySections-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/StickySections-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "telescope-zoom-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/telescope-zoom-main",
+      "file_count": 22,
+      "status": "portable_original_verified",
+      "reason": "rotation id: telescope-zoom"
+    },
+    {
+      "id": "telescope-zoom-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/telescope-zoom-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "TelescopeZoomReact",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/TelescopeZoomReact",
+      "file_count": 46,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: telescope-zoom-main"
+    },
+    {
+      "id": "TelescopeZoomReact 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/TelescopeZoomReact 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "temp_gsap_flip",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/temp_gsap_flip",
+      "file_count": 7,
+      "status": "temporary_ignored",
+      "reason": "temporary working directory"
+    },
+    {
+      "id": "temp_gsap_flip 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/temp_gsap_flip 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "temp_parallax_slider",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/temp_parallax_slider",
+      "file_count": 63,
+      "status": "temporary_ignored",
+      "reason": "temporary working directory"
+    },
+    {
+      "id": "temp_parallax_slider 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/temp_parallax_slider 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "temp_sticky_react",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/temp_sticky_react",
+      "file_count": 29,
+      "status": "temporary_ignored",
+      "reason": "temporary working directory"
+    },
+    {
+      "id": "Theodore-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Theodore-main",
+      "file_count": 37,
+      "status": "portable_original_verified",
+      "reason": "rotation id: theodore-menu-transition"
+    },
+    {
+      "id": "Theodore-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/Theodore-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "UnrevealEffects",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/UnrevealEffects",
+      "file_count": 46,
+      "status": "duplicate_or_conversion_ignored",
+      "reason": "canonical source: UnrevealEffects-main"
+    },
+    {
+      "id": "UnrevealEffects 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/UnrevealEffects 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "UnrevealEffects-main",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/UnrevealEffects-main",
+      "file_count": 28,
+      "status": "portable_original_verified",
+      "reason": "rotation id: unreveal-effects"
+    },
+    {
+      "id": "UnrevealEffects-main 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/UnrevealEffects-main 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "UnrollingImages-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/UnrollingImages-master",
+      "file_count": 22,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "WebGL/GLSL effect"
+    },
+    {
+      "id": "UnrollingImages-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/UnrollingImages-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "webGLImageTransitions-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/webGLImageTransitions-master",
+      "file_count": 53,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "WebGL effect"
+    },
+    {
+      "id": "webGLImageTransitions-master 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/webGLImageTransitions-master 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    },
+    {
+      "id": "webGLImageTransitionsReact",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/webGLImageTransitionsReact",
+      "file_count": 79,
+      "status": "requires_webgl_canvas_pipeline",
+      "reason": "WebGL React conversion"
+    },
+    {
+      "id": "webGLImageTransitionsReact 2",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/componenti/webGLImageTransitionsReact 2",
+      "file_count": 0,
+      "status": "empty_copy_ignored",
+      "reason": "empty directory"
+    }
+  ],
+  "framer_interactions": [
+    {
+      "id": "framer-stryds",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/stryds.learnframer.site",
+      "sha256": "4773531927ac5c6aed0cc46fb9799a7f1493ed8a169ce2daaa4bd273243219a9",
+      "status": "portable_react_verified"
+    },
+    {
+      "id": "framer-scroll-mask",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/scroll-mask.learnframer.site",
+      "sha256": "74579f0e911c935be8a598b1fbb2891182d380a50f5a5636c9713d04653155d2",
+      "status": "portable_react_verified"
+    },
+    {
+      "id": "framer-wiper",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/wiper.framer.website",
+      "sha256": "1d10cc6e7a919945627b5388f8407dda0a88f2e467a0efadf497975805afc231",
+      "status": "portable_react_verified"
+    },
+    {
+      "id": "framer-4k-video",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/4kvideo.framer.website",
+      "sha256": "c427c0ebb4c0655472d4f12243f9090d1d8d98e2ee6e92791506983b21a54ac8",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-circle-hover",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/circle-hover.learnframer.site",
+      "sha256": "46f62193ed21d78807bf4fed1a4e4960222e843c8bf818dc0e5ac8ec50df0a33",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-curved-scroll",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/curvedscroll.framer.website",
+      "sha256": "c62d5eba19870c0a143f385119a4e29a9069b36c409991690f3eef9a03770a7d",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-image-intro",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/image-intro.learnframer.site",
+      "sha256": "0fc1303060123ab44ec88baf769e41958ede7a8edb445baad2fbfa1465d96a84",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-immerse-zoom",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/immerse-zoom.learnframer.site",
+      "sha256": "618413af3c9913058549f4b9b1acdc5be6bd0cf10ab6ee0169496be8d72effb9",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-on-scroll",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/onscroll.framer.website",
+      "sha256": "6c3340999c28d6488c54ff2501e996793ebe3283885be0aee84e81128c06a440",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-rotating-zoom-entrance",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/rotatingzoomenterance.framer.website",
+      "sha256": "73fc36cfc8a59f9c7daf42d8a744fb1355e1b9626bdc165e793a26f5cd103ab9",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-sign-animation",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/sign-anim.learnframer.site",
+      "sha256": "f1e353af2f176ff81a2be6a03a8c364ca03ebcd12d538dc8106484215e9743f7",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-university",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/university.learnframer.site",
+      "sha256": "770a27aefc5efffd3b5e21754cf23cb404b75bf1e46be4cb4d4927de13db314c",
+      "status": "native_archive_verified"
+    },
+    {
+      "id": "framer-vaporize",
+      "origin": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/vaporize.learnframer.site",
+      "sha256": "fc1db24e6df8e52e2b79faea655b7121762f5f4c14750bd07971c3e741f7ebf2",
+      "status": "native_archive_verified"
+    }
+  ],
+  "framer_archive_inventory": [
+    {
+      "id": "4kvideo.framer.website",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/4kvideo.framer.website",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "circle-hover.learnframer.site",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/circle-hover.learnframer.site",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "curvedscroll.framer.website",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/curvedscroll.framer.website",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "image-intro.learnframer.site",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/image-intro.learnframer.site",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "immerse-zoom.learnframer.site",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/immerse-zoom.learnframer.site",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "onscroll.framer.website",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/onscroll.framer.website",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "rotatingzoomenterance.framer.website",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/rotatingzoomenterance.framer.website",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "scroll-mask.learnframer.site",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/scroll-mask.learnframer.site",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "sign-anim.learnframer.site",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/sign-anim.learnframer.site",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "stryds.learnframer.site",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/stryds.learnframer.site",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "university.learnframer.site",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/university.learnframer.site",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "vaporize.learnframer.site",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/vaporize.learnframer.site",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    },
+    {
+      "id": "wiper.framer.website",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/Framer_Interactions/wiper.framer.website",
+      "html_files": 1,
+      "status": "verified_rotation_source",
+      "reason": "admitted as exact React or native Framer runtime source"
+    }
+  ],
+  "support_libraries": [
+    {
+      "id": "gsap-public",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/gsap-public",
+      "status": "support_library_not_rotated_as_component"
+    },
+    {
+      "id": "GSAP-master",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/GSAP-master",
+      "status": "support_library_not_rotated_as_component"
+    },
+    {
+      "id": "framer-motion",
+      "root": "/Users/utente/Desktop/arsenal_v7/cartella senza nome 6final/ANIMAZIONI/framer-motion",
+      "status": "support_library_not_rotated_as_component"
+    }
+  ],
+  "excluded_classes": [
+    "zip",
+    "__MACOSX",
+    "temporary",
+    "suffix-copy-2",
+    "backup",
+    "WebGL",
+    "Three.js",
+    "shader",
+    "canvas-engine"
+  ]
+}

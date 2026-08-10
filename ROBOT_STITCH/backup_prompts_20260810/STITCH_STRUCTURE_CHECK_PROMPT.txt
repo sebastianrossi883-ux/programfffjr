@@ -1,0 +1,58 @@
+QUINTO PROMPT - CORREZIONE FINALE DOPO MOTION
+
+Lavora SOLO sull'ultima schermata generata nello stesso progetto. Non creare una
+nuova pagina, non ricominciare da zero e non ridisegnare identita, struttura,
+proporzioni, immagini, testi, tipografia, colori o ritmo del sito.
+
+Esegui un controllo tecnico reale e CORREGGI direttamente ogni problema:
+
+1. MOTION
+- Ogni sezione reale deve avere entrata, progressione durante lo scroll e uscita.
+- Devono esistere almeno sei famiglie motion differenti, non un fade-up uniforme.
+- Logo, navigazione, titoli, paragrafi, immagini, didascalie, CTA, icone,
+  controlli e footer devono avere un ruolo motion verificabile.
+- Guest Component e Framer Interactive devono attivarsi solo quando raggiunti
+  dallo scroll e devono usare il codice originale gia allegato.
+- La root Guest deve avere `data-motion-activation="scroll"`. La funzione di mount
+  deve essere chiamata una sola volta esclusivamente da `ScrollTrigger.onEnter` o
+  da `IntersectionObserver` con `entry.isIntersecting === true`, mai direttamente
+  al caricamento, in DOMContentLoaded/load, setTimeout o setInterval.
+- Non aggiungere stub, TODO, pseudocodice, adapter vuoti o simulazioni.
+
+2. INTEGRAZIONE
+- Non cancellare, sostituire, fondere, riordinare o accorciare nessuna sezione
+  ereditata dalle fasi precedenti. Il controllo finale non autorizza un redesign.
+- Devono essere presenti almeno le sei sezioni originali piu la nuova sezione
+  dedicata al Guest Component, quindi almeno sette <section> reali.
+- La sezione Guest deve essere intermedia o penultima e deve avere almeno una
+  sezione originale dopo di se prima del footer.
+- Conserva una sola istanza del Guest Component selezionato e una sola istanza
+  della Framer Interactive selezionata.
+- Verifica che funzioni/componenti siano definiti, montati e realmente invocati.
+- Verifica GSAP, ScrollTrigger, manifesto arsenal-v7.1 e tutti i marker richiesti.
+- Elimina inizializzazioni duplicate e conflitti tra script senza sostituire il
+  codice originale con una versione semplificata.
+
+3. FUNZIONALITA E BUG
+- Menu desktop/mobile, anchor, CTA, FAQ, frecce, caroselli e controlli devono
+  funzionare e portare alle sezioni corrette.
+- La root del menu deve avere `data-stitch-transparent-nav="true"` e
+  `data-scroll-visibility="top-only"`. In cima deve essere visibile ma totalmente
+  trasparente: nessun background, blur, bordo, ombra, pannello o pillola; soltanto
+  logo/voci testuali e l'eventuale hamburger mobile. Le voci desktop devono essere
+  allineate sulla stessa linea e centrate verticalmente.
+- Dopo 48-96 px di scroll l'intero menu deve scomparire verso l'alto e deve tornare
+  soltanto nella zona iniziale della pagina. Correggi fisicamente CSS e funzione
+  `initTransparentScrollNav()`; non limitarti ad aggiungere i marker.
+- La logica del menu non deve invocare, montare o anticipare il Guest Component:
+  il Guest resta governato esclusivamente dal proprio gate di scroll nel viewport.
+- Correggi errori console, immagini rotte, contenuto invisibile, overflow,
+  schermate bianche, spazi fantasma e layout shift.
+- Verifica desktop e mobile, inclusa prefers-reduced-motion con contenuto sempre
+  visibile e utilizzabile.
+- Se il sito ha meno di sette sezioni, ripristina le sezioni originali eliminate
+  usando la versione immediatamente precedente nello stesso progetto; non
+  compensare inventando sezioni nuove e non eliminare il Guest Component.
+
+Non rispondere con una dichiarazione o una tabella senza prima aver modificato e
+corretto fisicamente la schermata. Termina solo quando tutti i controlli sono veri.

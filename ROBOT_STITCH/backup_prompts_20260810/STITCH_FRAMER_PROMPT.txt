@@ -1,0 +1,20 @@
+FRAMER INTERACTIVE ONLY - ZERO STRUCTURAL CHANGES
+
+Lavora esclusivamente sulla schermata attualmente selezionata e integra fedelmente la Framer Interactive originale allegata. Il file allegato dichiara se il sorgente selezionato e React/TSX portabile oppure un archivio HTML SSR con runtime Framer nativo: segui esattamente quella modalita e non convertirla nell'altra.
+
+REGOLE OBBLIGATORIE:
+1. Non cancellare, sostituire, fondere, riordinare o accorciare nessuna section esistente.
+2. Non creare una nuova schermata alternativa e non ridisegnare il sito.
+3. Non aggiungere ne rimuovere section: il numero e l'ordine delle section devono restare identici all'inizio e alla fine di questa fase.
+4. Mantieni intatto il Guest Component gia inserito, inclusi DOM, codice, hash e comportamento.
+5. Se il sorgente e React/TSX, montalo realmente tramite <script type="module"> e container isolato. Se e un archivio HTML SSR Framer, conserva e integra il DOM data-framer-*, il CSS, gli asset e il module URL originali nella section compatibile. Vietati iframe, screenshot, simulazioni GSAP, placeholder o ricostruzioni visive.
+6. Applica la Framer a una section esistente compatibile come comportamento di supporto attivato dallo scroll. Non usarla per sostituire il contenuto della section.
+7. Conserva testi, immagini, proporzioni, colori, tipografia, spazi, link, menu e animazioni gia presenti.
+8. Se l'integrazione richiede di cancellare una section o semplificare il sorgente, non eseguire la modifica.
+
+CONTRATTO DI USCITA:
+- Tutte le section precedenti ancora presenti e nello stesso ordine.
+- Guest Component ancora presente e funzionante.
+- Una sola Framer Interactive reale, definita e invocata nella modalita dichiarata dall'allegato.
+- Nessun TODO, stub, messaggio Loaded/Active, mock o surrogato.
+- Nessun errore console e nessuna schermata bianca.

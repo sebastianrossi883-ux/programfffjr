@@ -1,0 +1,266 @@
+# Prompt universale — da reference a sito (Google Stitch)
+Sistema a 2 passaggi per generare siti one-page che **ereditano il sistema visivo** delle
+reference (bande di colore, card sovrapposte, filetti, trattamento foto, tipografia) e non
+solo "foto + due frasi".
+Funziona con qualsiasi set di reference: cambi le immagini, rifai il PASSO 1, il PASSO 2 resta
+identico.
+---
+## Perché due passaggi
+Se dai le immagini a Stitch e gli chiedi contemporaneamente di *guardare* e *costruire*, il
+modello spende il ragionamento sull'analisi e ripiega su un template generico: hero con testo a
+sinistra e immagine a destra, tre card con icone, bottoni arrotondati blu. Il carattere delle
+reference sparisce.
+Con il PASSO 1 l'analisi viene **congelata in token deterministici** (hex, px, rapporti, nomi di
+dispositivi grafici). Il PASSO 2 non deve più interpretare niente: esegue. È questo che elimina
+lo spazio di bias.
+---
+## PASSO 0 — preparazione
+- Scegli **da 2 a 4 reference**, non di più: oltre quel numero i sistemi visivi si mescolano e il
+  distillato si sporca. Se hai 6 screenshot dello stesso sito, tienine 2 (uno con l'hero, uno con
+  le sezioni interne).
+- Preferisci screenshot **desktop full-width**. Gli screenshot mobile fanno inferire layout a
+  colonna singola.
+- Ritaglia le barre del browser/telefono: la UI di sistema viene letta come parte del design.
+## PASSO 1 — estrazione del DNA
+Incolla il prompt qui sotto **insieme alle reference** in un modello con visione (Gemini, Claude,
+o Stitch stesso in modalità Experimental). Output atteso: solo il blocco compilato, niente
+commenti.
+```text
+You are a design forensics analyst. Below are screenshots of existing websites.
+Fill in the template below by observing ONLY what is visibly present in the images.
+Rules:
+- Never write a value you cannot see. If something is not observable, write "absent".
+- Prefer measurable tokens (hex, px, ratios) over adjectives.
+- Do not describe the subject matter, the brand or the copy. Only the visual system.
+- Output the filled template and nothing else.
+PALETTE (sample the actual pixels):
+  base: #______   (dominant background)
+  ink: #______    (body text)
+  accent: #______ (the colour used for emphasis blocks/bands)
+  dark: #______   (dark section background, or "absent")
+  line: #______   (hairlines/borders, or "absent")
+  accent coverage: __% of the page area
+TYPE:
+  display: serif|sans / uppercase|title case / letter-spacing tight|normal|wide / weight
+  body: serif|sans / size relative to display (e.g. 1:4)
+  eyebrow/label: present|absent — style
+  drop cap: present|absent
+  italic usage: where
+GEOMETRY:
+  page width: ____px, content column: __% of page
+  section vertical padding: ____px
+  corner radius — images: __px, cards: __px, buttons: __px
+  borders: hairline __px #______ | absent
+  shadows: present (describe) | absent
+  gradients: present | absent
+SIGNATURE DEVICES (max 5). These are the compositional moves that make the design
+recognisable. Write each one as an EXECUTABLE RECIPE, not as a label: name the shape, which
+page edge it touches, its size as a % of the section, and what it overlaps and by how much.
+"Yellow accent used for emphasis" is useless. "Solid accent rectangle, full page width,
+bleeding off both edges, height ~45% of the section, with a portrait photo overlapping it by
+half its height" is correct.
+  1. ...
+IMAGERY:
+  treatment: black&white | warm colour | desaturated | mixed (say which sections)
+  crop: full-bleed | inset with margin | mixed
+  aspect ratios observed: ...
+NAV:
+  position, background, item case, separators, language switcher, CTA button
+BUTTONS/LINKS:
+  shape, fill, border, label case, trailing icon, hover cue if visible
+BANNED — list every common web element that is clearly NOT present in these references
+(e.g. rounded corners, drop shadows, gradients, icon-and-text feature rows, testimonial
+carousels, pricing tables, pill buttons, coloured tech accents, emoji, badges):
+  ...
+```
+## PASSO 2 — costruzione (questo va in Stitch)
+Compila le `{VARIABILI}`, incolla il DNA del PASSO 1 al posto di `{DESIGN_DNA}`, **carica le stesse
+reference** e invia. Prompt in inglese, copy del sito nella lingua che indichi: è la combinazione
+che Stitch segue meglio.
+```text
+Web page, desktop 1440px, single scrolling page, no dark mode variant.
+Subject: {BRAND} — {ONE LINE: what it is, where it is}.
+All UI copy written in {LANGUAGE}, realistic and specific to the subject — never lorem ipsum,
+never generic marketing filler.
+This is a REDESIGN task, not a copy task. The attached screenshots supply the visual language
+only — proportions, colour masses, composition, typography, photographic treatment. Never
+reuse anything they contain as content: no brand name, no logo, no headline, no paragraph, no
+address, no phone number, no opening hours, no product name. All copy is written from scratch
+for {BRAND}. A page that repeats text visible in the screenshots is a failed output.
+The visual system below is the ONLY source of truth for style. Reproduce it exactly.
+Do not introduce any colour, shape, effect, component or layout pattern that is not listed in it.
+=== DESIGN SYSTEM ===
+{DESIGN_DNA}
+=== END DESIGN SYSTEM ===
+STRUCTURE — exactly 6 full-width sections, in this order, no others:
+1. NAV + HERO — full-bleed photograph, viewport height.
+   Nav: fully transparent, overlaid on the photograph, no background bar, no solid strip, no
+   bottom border, no logo, no wordmark, no brand name, no icons of any kind, no buttons.
+   Only 5 text links, evenly spaced, in the display typeface, in the light-on-image colour.
+   Nothing in the top-right corner: no language switcher, no booking button, no credit line.
+   The nav stays transparent on scroll.
+   Over the photograph, centred: the brand name "{BRAND}" as large display type, and below it
+   one subtitle line of maximum 6 words. Nothing else — no address, no phone number, no
+   opening hours, no paragraph. Scroll cue at the bottom centre.
+2. MANIFESTO — build it literally as described, do not simplify:
+   - section ground: base colour
+   - a solid rectangle in the ACCENT colour spans the full page width and bleeds off BOTH page
+     edges; its height is about 45% of the section height; it sits in the lower half of the
+     section
+   - a portrait photograph occupies the left third and overlaps that accent rectangle
+     vertically by roughly half of the photo's height, so photo and colour mass intersect
+   - the text column occupies the right half and sits on the base colour: eyebrow, display
+     heading of 2–4 words, two short paragraphs, one button
+   The accent rectangle is mandatory. A version of this section made of just a photo on the
+   left and text on the right, with no accent mass, is a failed output.
+3. FEATURE A — full-bleed photograph with a text card floating over it, offset to one side.
+   Eyebrow, display heading, one paragraph, one button.
+4. FEATURE B — the mirror of section 3: card on the opposite side. The dark colour is the
+   GROUND of this entire section, edge to edge, top to bottom: the photograph and the card sit
+   on top of it with margin around them, so the dark colour frames them. Do not render the
+   dark colour as a separate empty strip above or below the section.
+5. SELECTION — centred eyebrow + display heading, then a row of 3 items. Each item: image,
+   name in display typeface, one-line italic subtitle, one text link. Cards must follow the
+   geometry tokens above (radius, borders, shadows) with no exception.
+   The 3 items are perfectly aligned: identical image height and width, shared top edge,
+   shared baseline for names, for subtitles and for links. No stagger, no offset, no
+   difference in card height.
+6. CLOSING + FOOTER — full-width band in the accent or dark colour, short invitation line with
+   one button, then footer in columns: contacts, address, social, legal links, hairline
+   separator.
+RHYTHM:
+- Alternate light and heavy grounds between sections; never two identical grounds in a row.
+- Section padding and content column width identical across all sections.
+- Generous whitespace: text blocks never exceed 60% of the page width.
+- Every section must reuse at least one SIGNATURE DEVICE. A section built from plain centred
+  text and a photo is a failure.
+GRAPHIC QUOTA — count these before returning the page:
+- At least 3 of the 6 sections contain a SOLID MASS of the accent or dark colour covering 25%
+  or more of that section's area. Accent used only for text, eyebrows, hairlines or button
+  borders does NOT count towards this quota.
+- At least 2 sections contain an element that bleeds off a page edge.
+- At least 2 sections contain two elements that visibly overlap each other.
+If the page does not meet all three counts, rebuild the sections that are missing them.
+HARD CONSTRAINTS:
+- Icons: none anywhere, unless the design system explicitly lists an icon style.
+- Every coloured band must contain content. Never place an empty strip of accent or dark
+  colour between two sections as a divider: a colour mass is either the ground a section sits
+  on, or a block that a photo or a card overlaps. Sections are separated by padding only.
+- Use only the hex values listed. No other colour anywhere, including icons and hovers.
+- Maximum 2 typefaces.
+- Everything in BANNED must be absent.
+- No stock SaaS/landing-page patterns: no icon-and-text feature grids, no testimonial carousel,
+  no pricing table, no newsletter popup, no chat bubble, no statistics counters, no emoji.
+- No decorative element invented outside the design system.
+- Photography direction as specified in IMAGERY — apply the same treatment to every image.
+```
+**Per 5 sezioni invece di 6:** togli la sezione 4 e sposta la sua istruzione di banda scura sulla
+sezione 5 (`use the dark band as the ground`). Non togliere la 2: è quella che porta il
+dispositivo grafico forte.
+## PASSO 3 — iterazione
+Una modifica per messaggio. Stitch applica bene i comandi chirurgici e male le richieste
+cumulative.
+```text
+Section {N} only. {UNA modifica}. Keep everything else pixel-identical.
+```
+Micro-prompt di recupero quando il risultato torna generico:
+```text
+Section {N} has lost the design system. Rebuild it applying SIGNATURE DEVICE #{k}: the accent
+block must bleed off the {left|right} page edge and the photo must overlap it by ~15%.
+No rounded corners, no shadow.
+```
+**Menu piatto o con logo e icone** — il più frequente:
+```text
+Header only. Make the navigation bar fully transparent over the hero image: remove its
+background strip, remove the bottom border, remove the logo and the brand name from the bar,
+remove every icon and every button. Keep only the 5 text links, evenly spaced, in the display
+typeface, light colour over the photograph. The brand name appears only as large centred type
+over the hero image, nowhere else. Keep everything below the header unchanged.
+```
+**Sezione senza massa di colore** — quando il blocco accento non è stato eseguito:
+```text
+Section 2 only. Add the missing colour mass: a solid {ACCENT HEX} rectangle spanning the full
+page width, bleeding off both page edges, height about 45% of the section, sitting in the
+lower half. The portrait photo on the left must overlap it vertically by half of the photo
+height, so the two intersect. The text column stays on the right on the base colour. No
+rounded corners, no shadow. Keep everything else pixel-identical.
+```
+**Fascia di colore vuota tra due sezioni** — divisore inutile da rimuovere:
+```text
+Remove the empty {ACCENT|DARK} strip sitting between section {N} and section {N+1}. That
+colour must not exist as a standalone divider. Instead make it the ground of section {N+1}:
+the colour runs edge to edge behind the whole section, and the photograph and card sit on top
+of it with margin. Sections are separated by padding only. Keep everything else unchanged.
+```
+**Griglia disallineata:**
+```text
+Section 5 only. Align the 3 items on a strict grid: identical image width and height, shared
+top edge, names on one baseline, subtitles on one baseline, links on one baseline. Remove any
+vertical stagger. Keep everything else unchanged.
+```
+**Testo copiato dalle reference:**
+```text
+The copy has been taken from the reference screenshots. Rewrite every heading, paragraph and
+label from scratch for {BRAND} in {LANGUAGE}. No address, phone number or opening hours in the
+hero. Keep the layout pixel-identical.
+```
+```text
+The palette has drifted. Every colour on this page must be one of: {hex list}. Replace any
+other colour with the nearest one from that list.
+```
+---
+## Note operative su Stitch
+- **Prima generazione in modalità Experimental**, se disponibile: segue le istruzioni lunghe
+  molto meglio. Le rifiniture del PASSO 3 falle in Standard, sono più veloci e ti risparmiano
+  generazioni.
+- **Tieni il PASSO 2 compatto.** Il DNA compilato dovrebbe stare in ~25 righe: se il blocco
+  incollato è più lungo del resto del prompt, la struttura perde peso e il modello inizia a
+  improvvisare. Taglia le voci `absent` prima di incollare — servono solo dentro BANNED.
+- **Genera prima la pagina intera, poi correggi per sezione.** Chiedere sezione per sezione dal
+  principio produce pagine senza ritmo, perché il modello non vede l'alternanza.
+- **Non descrivere il contenuto in dettaglio nel PASSO 2.** Più scrivi copy nel prompt, più il
+  modello spende attenzione lì e meno ne dedica al layout. Se il testo definitivo ti serve
+  preciso, fallo sostituire dopo, in PASSO 3.
+- **Le reference vanno ricaricate anche nel PASSO 2**, non basta il DNA testuale: il testo fissa
+  le regole, le immagini fissano il gusto (grana delle foto, densità, crop).
+## Appendice — esempio di DNA compilato
+Estratto dalle reference della cantina (fondo crema + banda oro, foto in bianco e nero). Serve
+come metro di misura: è **questo** livello di concretezza che il PASSO 1 deve produrre.
+```text
+PALETTE: base #F4F0E6 | ink #2C2A26 | accent #C9A227 | dark #2F2E2B | line #D8D2C2
+  accent coverage: ~18%
+TYPE: display serif, title case, wide letter-spacing, regular weight
+  body sans, 1:4 vs display
+  eyebrow present: accent colour, lowercase, very wide letter-spacing
+  drop cap present: accent colour, 3 lines tall
+  italic: subtitles under product names only
+GEOMETRY: page 1440px, content column 78%, section padding 120px
+  radius: images 0, cards 0, buttons 0
+  borders: hairline 1px #C9A227 on buttons only
+  shadows: absent — gradients: absent
+SIGNATURE DEVICES:
+  1. Solid accent band running edge to edge behind the content, cut by a white card that
+     overlaps it vertically.
+  2. Black&white photo overlapping the accent band by ~40% of its height.
+  3. Text card in base colour floating over a full-bleed photo, offset right.
+  4. Eyebrow line in accent directly under the display heading, not above it.
+  5. Thin accent underline marking the active nav item.
+IMAGERY: black&white, high contrast; full-bleed for heroes, inset for portraits; 16:9 and 3:4
+NAV: top, base-colour ground, serif title case, thin vertical pipe separators, flag switcher
+BUTTONS: rectangular, no fill, 1px accent border, uppercase letter-spaced label, trailing arrow
+BANNED: rounded corners, drop shadows, gradients, icon-and-text feature rows, testimonial
+  carousels, pricing tables, pill buttons, blue/purple accents, emoji, badges, avatars
+```
+## Checklist di verifica del risultato
+Se una risposta è "no", usa il micro-prompt di recupero corrispondente.
+1. Il colore accento compare come **massa** (banda/blocco a tutta pagina), non solo come colore
+   del testo dei bottoni?
+2. Almeno un elemento **sborda** dal margine o **si sovrappone** a un altro?
+3. Il ritmo chiaro/scuro alterna, o la pagina è tutta chiara?
+4. I titoli sono nella display delle reference, con lo stesso case e la stessa spaziatura?
+5. Tutte le foto hanno lo stesso trattamento?
+6. C'è qualcosa nella lista BANNED che è ricomparso (angoli arrotondati, ombre, righe di icone)?
+7. Il menu è davvero trasparente sulla foto, senza barra di fondo, senza logo o nome, senza
+   icone e senza bottoni?
+8. Il testo è tutto nuovo, o è rientrato qualcosa letto negli screenshot (nomi, indirizzi,
+   orari, titoli)?

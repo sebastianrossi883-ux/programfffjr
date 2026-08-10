@@ -1,0 +1,4 @@
+Prompt usato: /Volumes/Extreme Pro/ROBOT_STITCH/STITCH_PROMPT_LATEST.txt
+  (nomi propri dalle immagini non disponibili: No module named 'read_reference_text')
+Identita' sito: Tenuta Montelvino (marchi reali esclusi: Ca' San Sebastiano, Mauro Sebaste)
+Chrome automatico e' gia' aperto. Aspetta la fine del comando precedente oppure chiudi la sua finestra Stitch, poi rilancia.
