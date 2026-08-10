@@ -1145,6 +1145,122 @@ def drop_files_on_composer(page, files: list[Path]) -> bool:
         return False
 
 
+# Pulsanti che aprono un selettore file MA NON allegano al messaggio. Il caso
+# vero: "+ Inizia con il tuo design" nella home di Stitch importa un design nel
+# progetto. Cliccarlo per sbaglio consuma i file senza produrre nessun chip.
+_ETICHETTE_NON_COMPOSER = (
+    r"Inizia\s+con\s+il\s+tuo\s+design|Start\s+with\s+your\s+design|"
+    r"\bImporta\b|\bImport\b|Carica\s+progetto|Upload\s+project"
+)
+
+
+def _e_un_pulsante_da_evitare(button) -> bool:
+    for lettore in ("inner_text", "get_attribute"):
+        try:
+            testo = (
+                button.inner_text(timeout=600)
+                if lettore == "inner_text"
+                else (button.get_attribute("aria-label", timeout=600) or "")
+            )
+        except (Error, TimeoutError):
+            continue
+        if testo and re.search(_ETICHETTE_NON_COMPOSER, testo, re.I):
+            print(f"Salto il pulsante '{testo.strip()[:40]}': non allega al messaggio.")
+            return True
+    return False
+
+
+def composer_root(page):
+    """Il riquadro del composer, risalendo dalla casella del prompt.
+
+    Stesso metodo di visible_attachment_names_in_composer: si parte da dove si
+    scrive e si sale finche' il contenitore resta di dimensioni da composer.
+    Serve per cercare il '+' DENTRO quel riquadro invece che su tutta la
+    pagina, dove vince sempre qualcos'altro.
+    """
+    target = find_prompt_target(page)
+    if not target:
+        return None
+    altezza_viewport = page.viewport_size["height"] if page.viewport_size else 1000
+    candidate = target
+    migliore = None
+    for _ in range(7):
+        try:
+            candidate = candidate.locator("xpath=..").first
+            box = candidate.bounding_box()
+        except (Error, TimeoutError):
+            break
+        if not box:
+            break
+        if box["height"] > max(900, altezza_viewport * 0.8):
+            break  # troppo grande: siamo usciti dal composer
+        migliore = candidate
+    return migliore
+
+
+def click_composer_attach(page, file_strings: list[str]) -> bool:
+    """Apre il selettore file dal composer e ci mette dentro i file.
+
+    Due strade, perche' il '+' puo' comportarsi in due modi: aprire subito il
+    selettore di sistema, oppure aprire un menu ("Carica file", "Documento")
+    da cui il selettore si apre al secondo click.
+    """
+    root = composer_root(page)
+    if root is None:
+        return False
+
+    selettori = (
+        "button[aria-label='+']",
+        "button[aria-label*='Attach' i]",
+        "button[aria-label*='Allega' i]",
+        "button[aria-label*='Upload' i]",
+        "button[aria-label*='Carica' i]",
+        "button[aria-label*='Add' i]",
+        "button:has-text('+')",
+        "[role=button]:has-text('+')",
+    )
+    for selettore in selettori:
+        try:
+            bottone = root.locator(selettore).first
+            bottone.wait_for(state="visible", timeout=700)
+        except (Error, TimeoutError):
+            continue
+        if _e_un_pulsante_da_evitare(bottone):
+            continue
+
+        # 1) selettore file diretto
+        try:
+            with page.expect_file_chooser(timeout=2500) as chooser:
+                bottone.click(timeout=1500)
+            chooser.value.set_files(file_strings)
+            print(f"OK: selettore file aperto dal composer ({selettore}).")
+            return True
+        except (Error, TimeoutError):
+            pass
+
+        # 2) il click ha aperto un menu: cerco la voce che carica un file
+        for voce in (
+            r"Carica\s+file", r"Carica", r"Upload\s+file", r"Upload",
+            r"Documento", r"Document", r"File",
+        ):
+            try:
+                elemento = page.get_by_text(re.compile(voce, re.I)).first
+                elemento.wait_for(state="visible", timeout=700)
+                with page.expect_file_chooser(timeout=2500) as chooser:
+                    elemento.click(timeout=1500)
+                chooser.value.set_files(file_strings)
+                print(f"OK: selettore file aperto dal menu del composer ('{voce}').")
+                return True
+            except (Error, TimeoutError):
+                continue
+        try:
+            page.keyboard.press("Escape")
+        except Error:
+            pass
+
+    return False
+
+
 def upload_motion_attachments(page, files: list[Path]) -> str | None:
     """Allega i .md come file veri e conferma che Stitch li abbia presi.
 
@@ -1193,6 +1309,34 @@ def upload_motion_attachments(page, files: list[Path]) -> str | None:
     # paths below (composer button, then file input).
 
     # 1) Click the composer '+' / attach button and use its file chooser.
+    # PRIMA il '+' DEL COMPOSER, che e' quello che produce il chip dentro il
+    # messaggio. Cercare '+' su tutta la pagina, con `surfaces()` che restituisce
+    # la pagina principale PRIMA dell'iframe del composer, significa trovare
+    # per primo un altro pulsante: in home c'e' "+ Inizia con il tuo design",
+    # che apre anche lui un selettore file ma importa un design nel progetto -
+    # ed e' cosi' che i .md finivano come schede sul canvas invece che come
+    # chip nel turno.
+    if click_composer_attach(page, file_strings):
+        confirmation = wait_for_motion_attachment_confirmation(
+            page, files, canvas_baseline, timeout_ms=20000
+        )
+        if confirmation == "composer":
+            print(f"OK: allegati {len(files)} file .md come chip nel messaggio")
+            return "composer"
+        if confirmation == "canvas":
+            print(
+                f"ATTENZIONE: i {len(files)} .md sono entrati dal composer ma Stitch "
+                "li ha resi come documenti sul canvas, non come chip."
+            )
+            return "canvas"
+        visible = visible_attachment_names_in_composer(page, files)
+        print(
+            "ERRORE: nessuna conferma dopo l'upload dal composer "
+            f"({len(visible)}/{len(files)} visibili). Non ricarico gli stessi file."
+        )
+        return None
+
+    print("Non ho trovato il pulsante di allegato del composer: provo i controlli generici.")
     upload_buttons = [
         "button[aria-label='+']",
         "button:has-text('+')",
@@ -1206,6 +1350,8 @@ def upload_motion_attachments(page, files: list[Path]) -> str | None:
     for selector in upload_buttons:
         for surface in surfaces(page):
             button = surface.locator(selector).first
+            if _e_un_pulsante_da_evitare(button):
+                continue
             try:
                 button.wait_for(state="visible", timeout=800)
                 with page.expect_file_chooser(timeout=2500) as chooser_info:
@@ -1829,7 +1975,7 @@ def send_animation_followup(
     manual_gate_between_phases: bool = False,
     debug: bool = False,
     on_previous_complete=None,
-    modo_allegati: str = "inline",
+    modo_allegati: str = "file",
 ) -> None:
     """Select the generated screen, then send Stitch's /animate follow-up."""
     from download_stitch_project import select_visible_screen_on_canvas, wait_for_generation_complete
@@ -2349,7 +2495,7 @@ def download_after_send(
     debug: bool = False,
     verify_motion_export: bool = False,
     max_gate_retries: int = 0,
-    modo_allegati_fase2: str = "inline",
+    modo_allegati_fase2: str = "file",
 ) -> Path | None:
     if not wait_for_project_after_send(page, timeout_ms):
         return None
@@ -2659,13 +2805,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--fase2-allegati",
         dest="fase2_allegati",
-        choices=("inline", "file"),
-        default="inline",
+        choices=("file", "inline"),
+        default="file",
         help=(
-            "Come far arrivare i 2 sorgenti motion alla FASE 2. inline (default): "
-            "riportati per intero DENTRO il messaggio di /animate, che nel modello "
-            "di Stitch e' l'unico campo del turno. file: caricati come upload, che "
-            "Stitch trasforma in schede documento sul canvas, fuori dal messaggio."
+            "Come far arrivare i 2 sorgenti motion alla FASE 2. file (default): "
+            "allegati dal '+' del composer, come si fa a mano, cosi' compaiono "
+            "come chip dentro il messaggio. inline: riportati per intero nel testo "
+            "del prompt (nessun chip, ma il contenuto e' certo di arrivare)."
         ),
     )
     parser.add_argument(
