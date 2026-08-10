@@ -259,8 +259,9 @@ def generation_started_since_baseline(page) -> bool:
 def wait_for_generation_complete(
     page,
     timeout_ms: int,
-    minimo_secondi: int = 20,
+    minimo_secondi: int = 45,
     quiete_secondi: int = 15,
+    minimo_senza_stato: int = 150,
     sblocco_frasi_vecchie_secondi: int = 75,
     attesa_partenza_secondi: int = 180,
 ) -> bool:
@@ -284,13 +285,16 @@ def wait_for_generation_complete(
 
     La regola nuova non si fida di nessuna frase, e chiede tre cose insieme:
 
-    - PROVA DI PARTENZA: o e' comparsa una schermata nuova rispetto alla foto
-      scattata da `mark_generation_baseline()` all'invio, o le frasi di stato
-      sono AUMENTATE di numero. Finche' manca, non si conclude niente: e' il
+    - PROVA DI PARTENZA: o il canvas si e' mosso rispetto alla foto scattata
+      da `mark_generation_baseline()` all'invio, o le frasi di stato sono
+      AUMENTATE di numero. Finche' manca, non si conclude niente: e' il
       paletto contro l'errore 1.
-    - QUIETE: il testo della UI deve restare identico per `quiete_secondi`.
-      Una pagina che sta generando cambia in continuazione, quindi la quiete
-      non puo' essere simulata da una fase ancora in corso.
+    - QUIETE: chat E canvas devono restare identici per `quiete_secondi`, e
+      comunque non si conclude prima di `minimo_secondi` dall'invio. Una
+      pagina che sta generando cambia in continuazione, quindi la quiete non
+      puo' essere simulata da una fase ancora in corso. Il minimo copre la
+      pausa fra l'invio e il primo segnale, quando Stitch "pensa" a schermo
+      immobile e il canvas si e' gia' mosso per gli allegati.
     - ESPORTA visibile: esiste una schermata esportabile.
 
     La frase di stato resta come freno, ma con una scadenza: se la pagina e'
@@ -302,8 +306,10 @@ def wait_for_generation_complete(
     inizio = time.time()
     deadline = inizio + (timeout_ms / 1000)
     baseline_preview = _GENERATION_BASELINE.get("preview")
+    baseline_stato = int(_GENERATION_BASELINE.get("busy_hits", 0))
 
     partenza_vista = False
+    stato_confermato = False
     ultimo_hash = ""
     fermo_da = inizio
     frasi_vecchie_segnalate = False
@@ -316,7 +322,11 @@ def wait_for_generation_complete(
 
         adesso = time.time()
         testo = main_frame_text(page)
-        impronta = hashlib.sha1(testo.encode("utf-8")).hexdigest()
+        canvas = preview_signature(page)
+        # La quiete si misura su chat E canvas insieme. Il canvas da solo
+        # basterebbe a smentire una pagina "ferma": una schermata che si sta
+        # ancora disegnando cambia testo anche quando la chat tace.
+        impronta = hashlib.sha1(f"{testo}\n#canvas#\n{canvas}".encode("utf-8")).hexdigest()
         if impronta != ultimo_hash:
             ultimo_hash = impronta
             fermo_da = adesso
@@ -325,13 +335,28 @@ def wait_for_generation_complete(
         occupato = bool(re.search(ACTIVE_GENERATION_PATTERN, testo, re.I))
         esporta = bool(re.search(EXPORT_PATTERN, testo, re.I))
 
-        if not partenza_vista:
-            if baseline_preview is not None and preview_signature(page) != baseline_preview:
-                partenza_vista = True
-                print("Generazione confermata: sul canvas e' comparsa una schermata nuova.")
-            elif generation_started_since_baseline(page):
-                partenza_vista = True
+        # Le due prove NON valgono uguale.
+        #
+        # Un messaggio di stato in piu' rispetto all'invio significa che una
+        # generazione e' stata annunciata: prova forte.
+        #
+        # Il canvas che si muove significa solo che qualcosa e' comparso, e
+        # non e' per forza un sito: Stitch rende i .md allegati come schede
+        # documento e quelle appaiono subito dopo l'invio, senza che sia
+        # stato generato niente (vedi attachment_name_counts_on_page). Prova
+        # debole, quindi tenuta a una soglia di tempo molto piu' alta prima
+        # di poter dire "finito".
+        if len(re.findall(ACTIVE_GENERATION_PATTERN, testo, re.I)) > baseline_stato:
+            if not stato_confermato:
+                stato_confermato = True
                 print("Generazione confermata: e' comparso un nuovo messaggio di stato.")
+            partenza_vista = True
+        elif not partenza_vista and baseline_preview is not None and canvas != baseline_preview:
+            partenza_vista = True
+            print(
+                "Movimento sul canvas senza messaggio di stato: potrebbe essere solo "
+                "un allegato: valuto la fine, ma con l'attesa minima lunga."
+            )
 
         if not partenza_vista:
             if adesso - inizio > attesa_partenza_secondi:
@@ -383,11 +408,26 @@ def wait_for_generation_complete(
             page.wait_for_timeout(3000)
             continue
 
-        if secondi_fermo < quiete_secondi or adesso - inizio < minimo_secondi:
+        # Prova debole (solo canvas): non basta a concludere presto. Diventa
+        # accettabile solo in fondo al budget, come ultima risorsa, perche' il
+        # caso che copre e' "Stitch ha lavorato ma la frase di stato non la
+        # riconosciamo piu'" - e li' fermarsi vorrebbe dire buttare una
+        # generazione gia' pagata. Se invece non ha lavorato davvero, questa
+        # attesa lunghissima e' proprio quello che impedisce l'invio anticipato.
+        soglia = (
+            minimo_secondi
+            if stato_confermato
+            else max(minimo_senza_stato, (timeout_ms / 1000) * 0.6)
+        )
+        if secondi_fermo < quiete_secondi or adesso - inizio < soglia:
             page.wait_for_timeout(3000)
             continue
 
-        print(f"OK: generazione completata (pagina ferma da {int(secondi_fermo)}s, Esporta presente).")
+        prova = "messaggio di stato" if stato_confermato else "solo movimento canvas"
+        print(
+            f"OK: generazione completata (pagina e canvas fermi da {int(secondi_fermo)}s, "
+            f"Esporta presente, prova: {prova})."
+        )
         return True
 
     if not partenza_vista:

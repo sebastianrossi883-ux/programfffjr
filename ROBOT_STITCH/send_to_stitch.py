@@ -1145,11 +1145,22 @@ def drop_files_on_composer(page, files: list[Path]) -> bool:
         return False
 
 
-def upload_motion_attachments(page, files: list[Path]) -> bool:
-    """Attach the Arsenal .md files to the composer as real files (like the
-    manual drag & drop) and confirm the chips landed. Returns True only when the
-    attachment is committed to the SAME message. There is deliberately no text
-    fallback: Prompt 2 must not leave the composer without all four source chips."""
+def upload_motion_attachments(page, files: list[Path]) -> str | None:
+    """Allega i .md come file veri e conferma che Stitch li abbia presi.
+
+    Ritorna DOVE sono finiti, perche' Stitch ha due strutture diverse e non
+    sono equivalenti per chi legge il prompt:
+
+    - "composer": chip dentro il messaggio. I file viaggiano CON il prompt,
+      Stitch li vede come allegati del turno.
+    - "canvas": schede documento sul canvas, fuori dal messaggio. E' il caso
+      normale con i sorgenti Markdown (vedi attachment_name_counts_on_page).
+      Il prompt allora deve NOMINARLI, altrimenti restano li' e basta.
+    - None: non confermati, non si invia.
+
+    Il valore resta falsy quando fallisce, quindi i `if not upload...` esistenti
+    continuano a funzionare. Non c'e' nessun fallback testuale: il Prompt 2 non
+    deve partire senza i suoi sorgenti."""
     missing = [path for path in files if not path.is_file()]
     if missing:
         missing_text = "\n".join(f"  - {path}" for path in missing)
@@ -1167,12 +1178,12 @@ def upload_motion_attachments(page, files: list[Path]) -> bool:
     if already_visible:
         if len(already_visible) == len(files):
             print(f"OK: i {len(files)} allegati motion sono gia' presenti nel composer")
-            return True
+            return "composer"
         print(
             "ERRORE: upload motion parziale gia' presente; non riprovo per evitare "
             "documenti duplicati. Visibili: " + ", ".join(already_visible)
         )
-        return False
+        return None
 
     canvas_baseline = attachment_name_counts_on_page(page, files)
 
@@ -1208,22 +1219,22 @@ def upload_motion_attachments(page, files: list[Path]) -> bool:
             )
             if confirmation == "composer":
                 print(f"OK: allegati {len(files)} file .md tramite pulsante (chip nel messaggio)")
-                return True
+                return "composer"
             if confirmation == "canvas":
                 print(
                     f"OK: allegati {len(files)} file .md tramite pulsante "
                     "(documenti sorgente sul canvas)"
                 )
-                return True
+                return "canvas"
             visible = visible_attachment_names_in_composer(page, files)
             print(
                 "ERRORE: Stitch non ha confermato tutti i chip dopo l'unico upload "
                 f"({len(visible)}/{len(files)} visibili). Non ricarico gli stessi file."
             )
-            return False
+            return None
 
     if upload_attempted:
-        return False
+        return None
 
     # 2) Set the files directly on a file input (Stitch may render them as
     # expanded document cards, but it does not open browser tabs).
@@ -1243,22 +1254,22 @@ def upload_motion_attachments(page, files: list[Path]) -> bool:
             )
             if confirmation == "composer":
                 print(f"OK: allegati {len(files)} file .md via input file")
-                return True
+                return "composer"
             if confirmation == "canvas":
                 print(
                     f"OK: allegati {len(files)} file .md via input file "
                     "(documenti sorgente sul canvas)"
                 )
-                return True
+                return "canvas"
             visible = visible_attachment_names_in_composer(page, files)
             print(
                 "ERRORE: Stitch non ha confermato tutti i chip dopo l'unico upload "
                 f"via input ({len(visible)}/{len(files)} visibili). "
                 "Non ricarico gli stessi file."
             )
-            return False
+            return None
 
-    return False
+    return None
 
 
 _PROMPT_TARGET_CACHE: dict = {"url": None, "target": None, "time": 0.0}
@@ -1868,7 +1879,29 @@ def send_animation_followup(
             raise SystemExit("Prompt 2 bloccato: tutti gli allegati motion devono essere file .md.")
 
         print(f"Allego i {len(attachment_paths)} sorgenti GSAP/manifesto al Prompt 2...")
-        if not upload_motion_attachments(page, attachment_paths):
+        dove = upload_motion_attachments(page, attachment_paths)
+        if dove == "canvas":
+            # Stitch rende i sorgenti Markdown come schede documento SUL
+            # CANVAS, non come chip dentro il messaggio. Restano quindi fuori
+            # dal turno: se il prompt non li nomina, /animate parte senza
+            # sapere che esistono e la regia motion torna a essere una
+            # descrizione a parole. Qui il messaggio se li porta dietro per
+            # nome, cosi' "insieme al prompt" e' vero anche in questa forma.
+            elenco = "\n".join(f"- {path.name}" for path in attachment_paths)
+            intestazione = (
+                f"Ho appena caricato in questo progetto {len(attachment_paths)} documenti "
+                f"sorgente:\n{elenco}\n"
+                "Sono la regia motion vincolante e il kit di codice da usare. "
+                "Leggili PRIMA di toccare la schermata e applica quello che dicono: "
+                "non sostituirli con animazioni inventate."
+            )
+            # `/animate` deve restare la PRIMA cosa del messaggio, altrimenti
+            # Stitch non lo riconosce come comando: l'intestazione va infilata
+            # subito sotto, non davanti.
+            prima_riga, _, resto = followup.partition("\n")
+            followup = f"{prima_riga}\n\n{intestazione}\n\n{resto.lstrip()}"
+            print(f"{phase_label}: sorgenti finiti sul canvas -> li nomino dentro il prompt.")
+        if not dove:
             visible = visible_attachment_names_in_composer(page, attachment_paths)
             print(
                 "Allegati motion confermati nel composer: "
@@ -2733,6 +2766,25 @@ def main() -> int:
         if mancanti:
             elenco = "\n".join(f"  - {path}" for path in mancanti)
             raise SystemExit(f"Allegati della fase 2 mancanti:\n{elenco}")
+        # `sanitize_prompt_for_detector` ripulisce il PROMPT, non gli allegati:
+        # quelli Stitch li rende come schede documento e il loro testo finisce
+        # a schermo tale e quale. Una frase-trappola dentro un .md non blocca
+        # piu' il rilevatore (la quiete della pagina la smaschera), ma sporca
+        # il conteggio dei messaggi di stato. Si segnala e si prosegue: il
+        # contenuto dei sorgenti non si riscrive di nascosto.
+        for path in MOTION_CORE_ATTACHMENT_PATHS:
+            testo_allegato = path.read_text(encoding="utf-8", errors="replace")
+            trovate = [
+                schema
+                for schema, _ in _DETECTOR_TRAPS
+                if re.search(schema, testo_allegato, re.I)
+            ]
+            if trovate:
+                print(
+                    f"ATTENZIONE: {path.name} contiene frasi che assomigliano allo stato "
+                    f"'sto generando' ({len(trovate)} schemi). Non blocca, ma se il "
+                    "rilevatore diventa nervoso guarda prima qui."
+                )
         print(f"Secondo passaggio Stitch attivo: /animate + regia GSAP da {animation_prompt_path}")
         print(
             "Allegati fase 2 (stesso messaggio del prompt): "

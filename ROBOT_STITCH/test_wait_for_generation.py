@@ -90,7 +90,11 @@ def run(nome, script, pre_send, attesi):
     esito = dsp.wait_for_generation_complete(page, 900_000)
     durata = int(clock.t - t0)
     ok = esito is attesi[0]
-    print(f"[{'OK ' if ok else 'KO '}] {nome}: esito={esito} dopo {durata}s (atteso {attesi[0]})")
+    nota = ""
+    if len(attesi) > 1:  # soglia: non deve concludere prima di N secondi
+        ok = ok and durata >= attesi[1]
+        nota = f", non prima di {attesi[1]}s"
+    print(f"[{'OK ' if ok else 'KO '}] {nome}: esito={esito} dopo {durata}s (atteso {attesi[0]}{nota})")
     return ok
 
 
@@ -114,7 +118,7 @@ tutti.append(run(
      (140, "Generazione schermata in corso... (5/6)", SITO_V1),
      (200, CHAT_FASE1, SITO_V2)],
     pre_send=("Fase 1 inviata.\nEsporta\n", SITO_V1),
-    attesi=(True,),
+    attesi=(True, 200),
 ))
 
 # 3. Stitch risponde solo a parole e non genera niente: deve dire NO, presto.
@@ -131,6 +135,32 @@ tutti.append(run(
     [(0, "Esporta\n", SITO_V1)],
     pre_send=("Esporta\n", SITO_V1),
     attesi=(False,),
+))
+
+# 5. Gli allegati .md diventano schede documento e MUOVONO il canvas senza
+#    che sia stato generato niente. Non deve bastare per dire "finito".
+DOCS = SITO_V1 + [("about:doc1", "CURRENT_MOTION_DIRECTION.md"),
+                  ("about:doc2", "stitch_motion_preview_kit.md")]
+#    Con la sola prova debole la conclusione arriva solo in fondo al budget
+#    (60% di 900s = 540s), mai nei primi minuti.
+tutti.append(run(
+    "allegati che muovono il canvas: non li scambia per generazione",
+    [(0, "/animate ... \nEsporta\n", DOCS)],
+    pre_send=("Esporta\n", SITO_V1),
+    attesi=(True, 540),
+))
+
+# 6. Stesso avvio (allegati sul canvas), ma poi la generazione parte davvero:
+#    deve concludere, e solo dopo che il sito animato e' comparso.
+tutti.append(run(
+    "allegati sul canvas, poi generazione vera: conclude alla fine",
+    [(0, "/animate ...\nEsporta\n", DOCS),
+     (20, "Generazione schermata in corso...", DOCS),
+     (90, "Generazione schermata in corso... (4/6)", DOCS),
+     (150, "Generazione schermata in corso...\nEcco il sito animato.\nEsporta\n",
+      SITO_V2 + DOCS[1:])],
+    pre_send=("Esporta\n", SITO_V1),
+    attesi=(True, 150),
 ))
 
 print("=" * 78)
