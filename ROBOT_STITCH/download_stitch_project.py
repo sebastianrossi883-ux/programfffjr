@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
 import json
 import os
 import re
@@ -167,82 +168,237 @@ def click_top_left_menu(page) -> bool:
     return False
 
 
-def wait_for_generation_complete(page, timeout_ms: int) -> bool:
-    deadline = time.time() + (timeout_ms / 1000)
-    busy_pattern = (
-        r"Generazione|generando|Generating|Whipping|Mapping out|"
-        r"image\s+\d+/\d+|immagine\s+(?:in\s+)?co|"
-        r"Sto|Creazione|Creating|working|loading"
+# Frasi di stato che Stitch mostra MENTRE genera. Restano pero' scritte nella
+# chat anche dopo, per sempre: sono un indizio, mai una prova. Chi le legge
+# deve sempre chiedersi "questa e' nuova o e' la cronologia?".
+ACTIVE_GENERATION_PATTERN = (
+    r"Generazione\s+(?:immagine|schermata)\s+in\s+corso|"
+    r"Generazione\s+schermata|"
+    r"Generazione\s+immagine|"
+    r"schermata\s+in\s+corso|"
+    r"immagine\s+in\s+co|"
+    r"in\s+corso\.{2,}|"
+    r"(?:Generating|Creating)\s+(?:an?\s+)?(?:image|screen)|"
+    r"Whipping\s+up\s+an?\s+image|"
+    r"Mapping\s+out\s+the\s+components|"
+    r"(?:Generazione|Generating|schermata|screen|immagine|image)"
+    r"[^()\n]{0,40}\(\s*\d+\s*/\s*\d+\s*\)"
+)
+EXPORT_PATTERN = r"\bEsporta\b|\bExport\b"
+
+# Stato dell'ultimo invio, fotografato da mark_generation_baseline().
+_GENERATION_BASELINE: dict[str, Any] = {}
+
+
+def main_frame_text(page) -> str:
+    """Testo della sola UI di Stitch, SENZA gli iframe di anteprima del sito.
+
+    `visible_text_exists` gira su `surfaces()`, cioe' anche dentro l'anteprima
+    del sito generato. Per il ristorante italiano quell'anteprima contiene
+    parole come "que-sto", "gu-sto", "no-stro": il vecchio `busy_pattern`
+    cercava `Sto` senza confini di parola e ci trovava dentro una generazione
+    in corso che non esisteva. Lo stato di Stitch sta nella sua UI, non nel
+    sito che ha disegnato.
+    """
+    try:
+        return page.main_frame.locator("body").inner_text(timeout=1500)
+    except (TimeoutError, Error):
+        return ""
+
+
+def preview_signature(page) -> str:
+    """Impronta delle anteprime sul canvas: cambia quando nasce una schermata.
+
+    E' l'unica prova POSITIVA che una fase ha prodotto qualcosa. Le frasi in
+    chat dicono solo che qualcosa e' stato annunciato, e restano li' per
+    sempre; una schermata nuova invece si vede.
+    """
+    parti: list[str] = []
+    for frame in page.frames:
+        if frame is page.main_frame:
+            continue
+        try:
+            testo = frame.locator("body").inner_text(timeout=800)
+        except (TimeoutError, Error):
+            continue
+        # Lunghezza arrotondata: assorbe il testo che si assesta durante il
+        # rendering senza perdere un cambio di schermata vero.
+        parti.append(f"{frame.url}|{len(testo) // 200}")
+    return hashlib.sha1("\n".join(sorted(parti)).encode("utf-8")).hexdigest()
+
+
+def mark_generation_baseline(page) -> None:
+    """Fotografa il canvas PRIMA di un invio.
+
+    Va chiamata da `send()`: e' il solo istante in cui sappiamo con certezza
+    che quello che si vede appartiene alla fase PRECEDENTE. Senza questa foto
+    l'attesa non sa distinguere "il sito e' pronto" da "sto guardando il sito
+    della fase prima e quello nuovo non e' nemmeno cominciato" - ed e' proprio
+    li' che il robot rischia di mandare /animate su una schermata vecchia.
+    """
+    _GENERATION_BASELINE["preview"] = preview_signature(page)
+    _GENERATION_BASELINE["busy_hits"] = len(
+        re.findall(ACTIVE_GENERATION_PATTERN, main_frame_text(page), re.I)
     )
-    active_generation_pattern = (
-        r"Generazione\s+(?:immagine|schermata)\s+in\s+corso|"
-        r"Generazione\s+schermata|"
-        r"Generazione\s+immagine|"
-        r"schermata\s+in\s+corso|"
-        r"immagine\s+in\s+co|"
-        r"in\s+corso\.{2,}|"
-        r"(?:Generating|Creating)\s+(?:an?\s+)?(?:image|screen)|"
-        r"Whipping\s+up\s+an?\s+image|"
-        r"Mapping\s+out\s+the\s+components|"
-        # "Generazione/immagine/schermata (2/6)" - ma SOLO se la parola che
-        # descrive la generazione compare vicino: da sola, "(N/N)" e'
-        # qualunque contatore dell'interfaccia (miniature reference, zoom,
-        # paginazione) e blocca il loop all'infinito. E' il sospetto piu'
-        # forte per lo stallo del 2026-07-26 (FASE 1 completata, poi 140+
-        # ripetizioni di questo ramo fino al timeout).
-        r"(?:Generazione|Generating|schermata|screen|immagine|image)"
-        r"[^()\n]{0,40}\(\s*\d+\s*/\s*\d+\s*\)"
-    )
-    stable_checks = 0
-    required_stable_checks = 4
+    _GENERATION_BASELINE["at"] = time.time()
+
+
+def generation_started_since_baseline(page) -> bool:
+    """True se e' comparso un segnale di generazione NUOVO dopo l'ultimo invio.
+
+    Si conta quante volte la frase di stato appare, invece di chiedere se
+    appare: la cronologia non si cancella, quindi l'unica cosa che distingue
+    una generazione vera e' che le occorrenze AUMENTANO.
+    """
+    if not _GENERATION_BASELINE:
+        return bool(re.search(ACTIVE_GENERATION_PATTERN, main_frame_text(page), re.I))
+    adesso = len(re.findall(ACTIVE_GENERATION_PATTERN, main_frame_text(page), re.I))
+    return adesso > int(_GENERATION_BASELINE.get("busy_hits", 0))
+
+
+def wait_for_generation_complete(
+    page,
+    timeout_ms: int,
+    minimo_secondi: int = 20,
+    quiete_secondi: int = 15,
+    sblocco_frasi_vecchie_secondi: int = 75,
+    attesa_partenza_secondi: int = 180,
+) -> bool:
+    """True solo quando la fase corrente e' DAVVERO finita.
+
+    Ci sono due errori possibili e non sono equivalenti:
+
+    1. PARTIRE TROPPO PRESTO. Il prompt successivo finisce su una schermata
+       incompleta o su quella della fase precedente. Costa una generazione e
+       sporca il sito. Da evitare sempre.
+    2. NON PARTIRE MAI. La fase 1 e' finita ma il robot non se ne accorge e
+       muore in timeout senza mandare /animate. E' il difetto che ha bloccato
+       tutti i giri del 2026-08-10 (19 run, tutte ferme alla FASE 1).
+
+    Il vecchio codice sbagliava sul secondo: leggeva le frasi di stato su
+    TUTTA la pagina, e siccome la chat di Stitch non si svuota, la frase
+    "Generazione schermata in corso" della fase 1 continuava a risultare vera
+    per sempre. Il ramo "sta ancora generando" si ripeteva fino al timeout e
+    il controllo su Esporta - l'unico che puo' rispondere "finito" - non
+    veniva mai raggiunto.
+
+    La regola nuova non si fida di nessuna frase, e chiede tre cose insieme:
+
+    - PROVA DI PARTENZA: o e' comparsa una schermata nuova rispetto alla foto
+      scattata da `mark_generation_baseline()` all'invio, o le frasi di stato
+      sono AUMENTATE di numero. Finche' manca, non si conclude niente: e' il
+      paletto contro l'errore 1.
+    - QUIETE: il testo della UI deve restare identico per `quiete_secondi`.
+      Una pagina che sta generando cambia in continuazione, quindi la quiete
+      non puo' essere simulata da una fase ancora in corso.
+    - ESPORTA visibile: esiste una schermata esportabile.
+
+    La frase di stato resta come freno, ma con una scadenza: se la pagina e'
+    ferma identica da `sblocco_frasi_vecchie_secondi`, quella frase e'
+    cronologia, non lavoro in corso, e viene ignorata. E' il paletto contro
+    l'errore 2, e non puo' far partire nulla in anticipo: una generazione
+    vera non tiene la pagina immobile per piu' di un minuto.
+    """
+    inizio = time.time()
+    deadline = inizio + (timeout_ms / 1000)
+    baseline_preview = _GENERATION_BASELINE.get("preview")
+
+    partenza_vista = False
+    ultimo_hash = ""
+    fermo_da = inizio
+    frasi_vecchie_segnalate = False
     ultimo_debug_stallo = 0.0
+    ultimo_messaggio = 0.0
 
     while time.time() < deadline:
         page.keyboard.press("Escape")
         page.wait_for_timeout(700)
 
-        # Export/Esporta can appear before Stitch has finished rendering the
-        # actual generated website. If active generation text is visible, wait;
-        # otherwise we risk exporting only reference screenshots and DESIGN.md.
-        if visible_text_exists(page, active_generation_pattern, timeout=500):
-            stable_checks = 0
-            print("Stitch sta ancora generando schermate: aspetto...")
-            # Se questo ramo si ripete per piu' di un minuto, e' quasi certo
-            # un falso positivo del pattern (non generazione vera): salva UNA
-            # sola prova per capire cosa lo sta facendo scattare, invece di
-            # scoprirlo a occhio dopo un timeout di 5+ minuti come il
-            # 2026-07-26.
-            if time.time() - ultimo_debug_stallo > 60:
-                ultimo_debug_stallo = time.time()
+        adesso = time.time()
+        testo = main_frame_text(page)
+        impronta = hashlib.sha1(testo.encode("utf-8")).hexdigest()
+        if impronta != ultimo_hash:
+            ultimo_hash = impronta
+            fermo_da = adesso
+        secondi_fermo = adesso - fermo_da
+
+        occupato = bool(re.search(ACTIVE_GENERATION_PATTERN, testo, re.I))
+        esporta = bool(re.search(EXPORT_PATTERN, testo, re.I))
+
+        if not partenza_vista:
+            if baseline_preview is not None and preview_signature(page) != baseline_preview:
+                partenza_vista = True
+                print("Generazione confermata: sul canvas e' comparsa una schermata nuova.")
+            elif generation_started_since_baseline(page):
+                partenza_vista = True
+                print("Generazione confermata: e' comparso un nuovo messaggio di stato.")
+
+        if not partenza_vista:
+            if adesso - inizio > attesa_partenza_secondi:
+                # Non e' un timeout di generazione: e' Stitch che non ha mai
+                # cominciato (tipicamente ha risposto solo a parole). Dirlo
+                # subito vale piu' che aspettare altri 12 minuti per poi
+                # stampare la frase sbagliata.
+                print(
+                    f"Nessuna generazione partita entro {attesa_partenza_secondi}s: "
+                    "Stitch non ha prodotto nessuna schermata nuova."
+                )
                 try:
                     from send_to_stitch import save_debug
-                    save_debug(page, "generation_wait_stuck")
-                    print("  (salvato debug/*_generation_wait_stuck.* per capire cosa blocca l'attesa)")
+                    save_debug(page, "generation_never_started")
                 except Exception:
                     pass
-            page.wait_for_timeout(15000)
-            continue
-
-        # Once the project toolbar exposes Export/Esporta and active generation
-        # text is gone for two checks, the design is usable.
-        if visible_text_exists(page, r"\bEsporta\b|\bExport\b", timeout=700):
-            stable_checks += 1
-            print(f"Stitch mostra Esporta: controllo stabilita' ({stable_checks}/{required_stable_checks})...")
-            if stable_checks >= required_stable_checks:
-                print("OK: generazione completata.")
-                return True
+                return False
+            if adesso - ultimo_messaggio > 30:
+                ultimo_messaggio = adesso
+                print(f"Aspetto che la generazione parta ({int(adesso - inizio)}s)...")
             page.wait_for_timeout(3000)
             continue
 
-        if visible_text_exists(page, busy_pattern, timeout=350):
-            stable_checks = 0
-            print("Stitch sta ancora generando: aspetto...")
-            page.wait_for_timeout(10000)
+        if occupato and secondi_fermo < sblocco_frasi_vecchie_secondi:
+            if adesso - ultimo_messaggio > 30:
+                ultimo_messaggio = adesso
+                print(f"Stitch sta ancora generando ({int(adesso - inizio)}s): aspetto...")
+            if adesso - ultimo_debug_stallo > 120:
+                ultimo_debug_stallo = adesso
+                try:
+                    from send_to_stitch import save_debug
+                    save_debug(page, "generation_wait_stuck")
+                except Exception:
+                    pass
+            page.wait_for_timeout(5000)
             continue
 
-        page.wait_for_timeout(5000)
+        if occupato and not frasi_vecchie_segnalate:
+            frasi_vecchie_segnalate = True
+            print(
+                f"La frase 'generazione in corso' e' ancora scritta, ma la pagina e' "
+                f"identica da {int(secondi_fermo)}s: e' cronologia della chat, la ignoro."
+            )
 
-    print("Tempo scaduto: Stitch sembra ancora in generazione.")
+        if not esporta:
+            if adesso - ultimo_messaggio > 30:
+                ultimo_messaggio = adesso
+                print("Nessun bottone Esporta: la schermata non e' ancora esportabile, aspetto...")
+            page.wait_for_timeout(3000)
+            continue
+
+        if secondi_fermo < quiete_secondi or adesso - inizio < minimo_secondi:
+            page.wait_for_timeout(3000)
+            continue
+
+        print(f"OK: generazione completata (pagina ferma da {int(secondi_fermo)}s, Esporta presente).")
+        return True
+
+    if not partenza_vista:
+        print("Tempo scaduto senza che nessuna generazione sia mai partita.")
+    else:
+        print("Tempo scaduto: Stitch sembra ancora in generazione.")
+    try:
+        from send_to_stitch import save_debug
+        save_debug(page, "generation_timeout")
+    except Exception:
+        pass
     return False
 
 

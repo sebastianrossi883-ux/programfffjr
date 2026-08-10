@@ -1575,8 +1575,17 @@ def send_started(page, previous_url: str, marker: str, timeout_ms: int = 6000) -
 
 
 def send(page, prompt: str) -> None:
+    from download_stitch_project import mark_generation_baseline
+
     previous_url = page.url
     marker = prompt_marker(prompt)
+
+    # Foto del canvas PRIMA che il prompt parta: e' l'unico istante in cui
+    # sappiamo che tutto quello che si vede appartiene alla fase precedente.
+    # Senza, l'attesa della fase successiva non puo' distinguere "il sito e'
+    # pronto" da "sto guardando il sito di prima". Qui, e non piu' avanti:
+    # dopo l'invio la chat e' gia' cambiata.
+    mark_generation_baseline(page)
 
     # ---- GATE DURO: 3.1 Pro verificato all'ULTIMO ISTANTE UTILE ----
     # Il modello viene scelto ~40 righe prima; poi si scrive il prompt e il
@@ -1666,19 +1675,20 @@ def wait_fixed_before_followup(page, seconds: int, label: str) -> bool:
     costava ~12 minuti a giro."""
     if seconds <= 0:
         return False
-    from download_stitch_project import visible_text_exists
-
-    started_pattern = (
-        r"Generazione\s+(?:immagine|schermata)|schermata\s+in\s+corso|"
-        r"immagine\s+in\s+co|in\s+corso\.{2,}|"
-        r"(?:Generating|Creating)\s+(?:an?\s+)?(?:image|screen)|"
-        r"Whipping\s+up|Mapping\s+out|\(\s*\d+\s*/\s*\d+\s*\)"
+    from download_stitch_project import (
+        generation_started_since_baseline,
+        visible_text_exists,
     )
+
+    # La partenza si riconosce contando i messaggi di stato NUOVI rispetto
+    # all'invio, non cercando una frase: quella frase resta scritta in chat
+    # dalla fase precedente e faceva rispondere "partita" un istante dopo
+    # l'invio, sempre, anche quando Stitch non aveva ancora mosso niente.
     print(f"{label}: aspetto che Stitch inizi a generare (max {seconds}s, non piu' a tempo fisso).")
     start = time.time()
     deadline = start + seconds
     while time.time() < deadline:
-        if visible_text_exists(page, started_pattern, timeout=400):
+        if generation_started_since_baseline(page):
             print(f"{label}: generazione partita dopo {int(time.time() - start)}s -> proseguo.")
             return True
         page.wait_for_timeout(1000)
@@ -1769,7 +1779,9 @@ def wait_fixed_before_followup(page, seconds: int, label: str) -> bool:
             start = time.time()
             deadline = start + max(120, seconds // 2)
             while time.time() < deadline:
-                if visible_text_exists(page, started_pattern, timeout=400):
+                # `send()` ha rifatto la foto del canvas: il confronto riparte
+                # dalla spinta, non dall'invio della fase.
+                if generation_started_since_baseline(page):
                     print(f"{label}: generazione partita dopo la spinta -> proseguo.")
                     return True
                 page.wait_for_timeout(1000)
@@ -2272,6 +2284,14 @@ def download_after_send(
             framer_sources,
         ) = split_motion_attachment_paths(motion_attachment_paths)
 
+    if animation_sources is None:
+        # Giro senza passaggio Guest/Framer (START_ROBOT.command usa solo
+        # --animate-in-stitch): prima la fase 2 partiva NUDA, senza nessun
+        # allegato, e la regia motion restava una descrizione a parole. I due
+        # sorgenti core viaggiano nello STESSO messaggio del prompt /animate,
+        # come nella pipeline lunga.
+        animation_sources = [path for path in MOTION_CORE_ATTACHMENT_PATHS]
+
     if animation_prompt and animation_prompt.strip():
         send_animation_followup(
             page,
@@ -2549,8 +2569,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--phase-wait-seconds",
         type=int,
-        default=0,
-        help="Attesa fissa prima di ogni prompt successivo. Esempio: 240 = aspetta 4 minuti tra le fasi.",
+        default=180,
+        help=(
+            "TETTO (non attesa fissa) entro cui la fase precedente deve iniziare a "
+            "generare: appena parte si prosegue. 0 disattiva il controllo di partenza. "
+            "Default: 180."
+        ),
     )
     parser.add_argument(
         "--manual-gate-between-phases",
@@ -2702,7 +2726,18 @@ def main() -> int:
             print("--animate-in-stitch richiede il download: attivo --download-after-send.")
             args.download_after_send = True
         animation_prompt = animation_prompt_path.read_text()
+        # Controllo QUI e non al momento dell'invio: la fase 2 arriva dopo una
+        # generazione gia' pagata, e scoprire li' che manca un .md significa
+        # buttarla via. Meglio non partire affatto.
+        mancanti = [path for path in MOTION_CORE_ATTACHMENT_PATHS if not path.is_file()]
+        if mancanti:
+            elenco = "\n".join(f"  - {path}" for path in mancanti)
+            raise SystemExit(f"Allegati della fase 2 mancanti:\n{elenco}")
         print(f"Secondo passaggio Stitch attivo: /animate + regia GSAP da {animation_prompt_path}")
+        print(
+            "Allegati fase 2 (stesso messaggio del prompt): "
+            + ", ".join(path.name for path in MOTION_CORE_ATTACHMENT_PATHS)
+        )
 
     motion_code_prompt = ""
     motion_attachment_paths: list[Path] = []
