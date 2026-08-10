@@ -1261,6 +1261,37 @@ def click_composer_attach(page, file_strings: list[str]) -> bool:
     return False
 
 
+def nomina_sorgenti_se_sul_canvas(
+    dove: str | None, testo_prompt: str, files: list[Path], etichetta: str
+) -> str:
+    """Se i sorgenti sono atterrati sul canvas invece che nel messaggio, il
+    prompt se li porta dietro per nome.
+
+    Come chip sono allegati del turno e Stitch li ha davanti; come schede
+    documento stanno fuori dal messaggio, e senza una riga che li nomini la
+    fase lavora come se non esistessero. Vale per ogni fase che allega
+    sorgenti, non solo per la seconda.
+    """
+    if dove != "canvas":
+        return testo_prompt
+    elenco = "\n".join(f"- {path.name}" for path in files)
+    intestazione = (
+        f"Ho appena caricato in questo progetto {len(files)} documenti sorgente:\n"
+        f"{elenco}\n"
+        "Sono i sorgenti obbligatori di questa fase. Leggili PRIMA di toccare la "
+        "schermata e usali come sono scritti, senza riscriverli."
+    )
+    # Se il messaggio inizia con un comando (/animate), quello deve restare la
+    # prima riga o Stitch non lo riconosce.
+    prima_riga, _, resto = testo_prompt.partition("\n")
+    if prima_riga.startswith("/"):
+        testo = f"{prima_riga}\n\n{intestazione}\n\n{resto.lstrip()}"
+    else:
+        testo = f"{intestazione}\n\n{testo_prompt}"
+    print(f"{etichetta}: sorgenti finiti sul canvas -> li nomino dentro il prompt.")
+    return testo
+
+
 def upload_motion_attachments(page, files: list[Path]) -> str | None:
     """Allega i .md come file veri e conferma che Stitch li abbia presi.
 
@@ -2164,7 +2195,8 @@ def send_motion_code_followup(
     if any(path.suffix.lower() != ".md" for path in attachment_paths):
         raise SystemExit("Prompt 3 bloccato: il Guest deve essere allegato come .md.")
     print("Allego SOLO il Guest Component al Prompt 3...")
-    if not upload_motion_attachments(page, attachment_paths):
+    dove = upload_motion_attachments(page, attachment_paths)
+    if not dove:
         if debug:
             save_debug(page, "component_attachments_missing")
         raise SystemExit(
@@ -2172,6 +2204,7 @@ def send_motion_code_followup(
         )
 
     prompt = motion_code_prompt.strip() + build_guest_assignment(selection, 1)
+    prompt = nomina_sorgenti_se_sul_canvas(dove, prompt, attachment_paths, _fase(3))
     print("Invio terzo messaggio: integrazione Ironclad del SOLO Guest Component come nuova sezione.")
     fill_prompt(page, prompt)
     log_prompt_send(_fase(3), str(MOTION_CODE_PROMPT_PATH), prompt)
@@ -2220,12 +2253,14 @@ def send_second_component_followup(
     if any(path.suffix.lower() != ".md" for path in attachment_paths):
         raise SystemExit("Prompt 4 bloccato: il Guest #2 deve essere allegato come .md.")
     print("Allego SOLO il secondo Guest Component al Prompt 4...")
-    if not upload_motion_attachments(page, attachment_paths):
+    dove = upload_motion_attachments(page, attachment_paths)
+    if not dove:
         if debug:
             save_debug(page, "component2_attachments_missing")
         raise SystemExit("Prompt 4 NON inviato: Stitch non ha acquisito il secondo Guest Component.")
 
     prompt = motion_code_prompt.strip() + build_guest_assignment(selection, 2)
+    prompt = nomina_sorgenti_se_sul_canvas(dove, prompt, attachment_paths, _fase(4))
     print("Invio quarto messaggio: integrazione del SECONDO Guest Component come nuova sezione.")
     fill_prompt(page, prompt)
     log_prompt_send(_fase(4), str(MOTION_CODE_PROMPT_PATH), prompt)
@@ -2303,7 +2338,8 @@ def send_guest_motion_followup(
     # Lo stesso .md del passaggio precedente: qui serve come fonte da cui
     # rileggere le funzioni di animazione, non come struttura da ricostruire.
     print("Riallego il Guest Component per il passaggio sulle animazioni...")
-    if not upload_motion_attachments(page, attachment_paths):
+    dove = upload_motion_attachments(page, attachment_paths)
+    if not dove:
         if debug:
             save_debug(page, "guest_motion_attachment_missing")
         print("  allegato non acquisito: SALTO le animazioni e proseguo.")
@@ -2378,11 +2414,13 @@ def send_framer_followup(
     if len(attachment_paths) != 1 or attachment_paths[0].suffix.lower() != ".md":
         raise SystemExit("Prompt 5 bloccato: serve esattamente un sorgente Framer .md.")
     print("Allego SOLO la Framer Interactive al Prompt 5...")
-    if not upload_motion_attachments(page, attachment_paths):
+    dove = upload_motion_attachments(page, attachment_paths)
+    if not dove:
         if debug:
             save_debug(page, "framer_attachment_missing")
         raise SystemExit("Prompt 5 NON inviato: Stitch non ha acquisito il sorgente Framer.")
     prompt = framer_prompt.strip() + build_framer_assignment(selection)
+    prompt = nomina_sorgenti_se_sul_canvas(dove, prompt, attachment_paths, _fase(5))
     fill_prompt(page, prompt)
     log_prompt_send(_fase(5), str(FRAMER_PROMPT_PATH), prompt)
     send(page, prompt)
@@ -2436,17 +2474,21 @@ def send_final_check_followup(
         raise SystemExit("Prompt 6 bloccato: tutti i sorgenti finali devono essere .md.")
     source_names = "Guest #1, Framer" if len(attachment_paths) == 2 else "Guest #1, Guest #2, Framer"
     print(f"Allego {source_names} al Prompt 6 di correzione finale...")
-    if not upload_motion_attachments(page, attachment_paths):
+    dove = upload_motion_attachments(page, attachment_paths)
+    if not dove:
         if debug:
             save_debug(page, "final_source_attachments_missing")
         raise SystemExit(
             "Prompt 6 NON inviato: Stitch non ha acquisito tutti i sorgenti finali richiesti."
         )
 
+    prompt_finale = nomina_sorgenti_se_sul_canvas(
+        dove, final_prompt.strip(), attachment_paths, _fase(6)
+    )
     print("Invio sesto messaggio: correzione fisica finale bug/link/menu/sezioni/motion.")
-    fill_prompt(page, final_prompt.strip())
-    log_prompt_send(_fase(6), str(FINAL_CHECK_PROMPT_PATH), final_prompt.strip())
-    send(page, final_prompt.strip())
+    fill_prompt(page, prompt_finale)
+    log_prompt_send(_fase(6), str(FINAL_CHECK_PROMPT_PATH), prompt_finale)
+    send(page, prompt_finale)
     print("OK: controllo finale inviato. Aspetto la versione corretta.")
     if not wait_for_generation_complete(page, timeout_ms):
         raise SystemExit("Il controllo finale non ha finito entro il tempo previsto: non scarico una versione incompleta.")
