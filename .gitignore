@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+robot_env/
+pw-browsers/
+debug/
+.stitch_browser_profile/
+.DS_Store
