@@ -1829,6 +1829,7 @@ def send_animation_followup(
     manual_gate_between_phases: bool = False,
     debug: bool = False,
     on_previous_complete=None,
+    modo_allegati: str = "inline",
 ) -> None:
     """Select the generated screen, then send Stitch's /animate follow-up."""
     from download_stitch_project import select_visible_screen_on_canvas, wait_for_generation_complete
@@ -1870,6 +1871,7 @@ def send_animation_followup(
     else:
         followup = "/animate\n\n" + animation_message
 
+    allegati_inline = 0
     if attachment_paths is not None:
         if not attachment_paths:
             raise SystemExit("Prompt 2 bloccato: nessun allegato motion indicato.")
@@ -1878,6 +1880,54 @@ def send_animation_followup(
         if any(path.suffix.lower() != ".md" for path in attachment_paths):
             raise SystemExit("Prompt 2 bloccato: tutti gli allegati motion devono essere file .md.")
 
+    if attachment_paths is not None and modo_allegati == "inline":
+        # PERCHE' IL CONTENUTO VA DENTRO IL TESTO, E NON RESTA UN FILE.
+        #
+        # Nel modello di Stitch (stitch_tools_list.json) una schermata nasce
+        # da `generate_screen_from_text(projectId, prompt, designSystem,
+        # deviceType, modelId)` e si modifica con `edit_screens(projectId,
+        # prompt, selectedScreenIds)`: il turno porta UNA STRINGA e nient'altro.
+        # Non esiste nessun parametro "allegati". L'unica porta d'ingresso per
+        # un Markdown e' `upload_design_md(projectId, designMdBase64)`, che
+        # serve a creare il DESIGN SYSTEM del progetto - roba di progetto, non
+        # del messaggio.
+        #
+        # Ecco perche' i .md diventavano "schede fuori": non e' un errore
+        # dell'automazione, e' la forma del prodotto. Nessun trucco lato
+        # browser puo' trasformarli in allegati del turno, perche' il turno
+        # non ha un posto dove metterli.
+        #
+        # Il testo del prompt, invece, e' esattamente il campo che Stitch
+        # legge. Mettendoci dentro i sorgenti, "insieme al prompt" diventa
+        # vero alla lettera. In piu' il contenuto passa da
+        # sanitize_prompt_for_detector, cosa che come file non succedeva.
+        blocchi = []
+        for path in attachment_paths:
+            contenuto = path.read_text(encoding="utf-8", errors="replace").strip()
+            blocchi.append(
+                f"===== INIZIO SORGENTE: {path.name} =====\n"
+                f"{contenuto}\n"
+                f"===== FINE SORGENTE: {path.name} ====="
+            )
+        intestazione = (
+            f"Qui sotto trovi {len(attachment_paths)} sorgenti riportati per intero, "
+            "delimitati da righe INIZIO/FINE SORGENTE: sono la regia motion "
+            "vincolante e il kit di codice da usare. Applicali come sono scritti, "
+            "non sostituirli con animazioni inventate."
+        )
+        prima_riga, _, resto = followup.partition("\n")
+        followup = (
+            f"{prima_riga}\n\n{intestazione}\n\n{resto.lstrip()}\n\n"
+            + "\n\n".join(blocchi)
+        )
+        allegati_inline = len(attachment_paths)
+        attachment_paths = None  # niente upload: il contenuto e' gia' nel messaggio
+        print(
+            f"{phase_label}: {allegati_inline} sorgenti scritti DENTRO il messaggio "
+            f"({len(followup)} caratteri in tutto)."
+        )
+
+    if attachment_paths is not None:
         print(f"Allego i {len(attachment_paths)} sorgenti GSAP/manifesto al Prompt 2...")
         dove = upload_motion_attachments(page, attachment_paths)
         if dove == "canvas":
@@ -1915,7 +1965,12 @@ def send_animation_followup(
                 "GSAP/manifesto richiesti."
             )
 
-    attachment_text = f" + {len(attachment_paths)} allegati reali" if attachment_paths else ""
+    if allegati_inline:
+        attachment_text = f" + {allegati_inline} sorgenti nel testo del messaggio"
+    elif attachment_paths:
+        attachment_text = f" + {len(attachment_paths)} allegati reali"
+    else:
+        attachment_text = ""
     print(f"Invio il secondo messaggio: /animate + {prompt_path.name}{attachment_text} ({prompt_description}).")
     fill_prompt(page, followup)
     log_prompt_send(phase_label, str(prompt_path), followup)
@@ -2294,6 +2349,7 @@ def download_after_send(
     debug: bool = False,
     verify_motion_export: bool = False,
     max_gate_retries: int = 0,
+    modo_allegati_fase2: str = "inline",
 ) -> Path | None:
     if not wait_for_project_after_send(page, timeout_ms):
         return None
@@ -2334,6 +2390,7 @@ def download_after_send(
             phase_label=_fase(2) if motion_code_prompt and motion_code_prompt.strip() else "FASE 2/3",
             prompt_description="regia GSAP Awwwards",
             attachment_paths=animation_sources,
+            modo_allegati=modo_allegati_fase2,
             phase_wait_seconds=phase_wait_seconds,
             manual_gate_between_phases=manual_gate_between_phases,
             debug=debug,
@@ -2598,6 +2655,18 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=FINAL_CHECK_PROMPT_PATH,
         help="File prompt controllo finale. Default: STITCH_STRUCTURE_CHECK_PROMPT.txt.",
+    )
+    parser.add_argument(
+        "--fase2-allegati",
+        dest="fase2_allegati",
+        choices=("inline", "file"),
+        default="inline",
+        help=(
+            "Come far arrivare i 2 sorgenti motion alla FASE 2. inline (default): "
+            "riportati per intero DENTRO il messaggio di /animate, che nel modello "
+            "di Stitch e' l'unico campo del turno. file: caricati come upload, che "
+            "Stitch trasforma in schede documento sul canvas, fuori dal messaggio."
+        ),
     )
     parser.add_argument(
         "--phase-wait-seconds",
@@ -3068,6 +3137,7 @@ def main() -> int:
                         debug=args.debug,
                         verify_motion_export=bool(motion_selection),
                         max_gate_retries=args.max_gate_retries,
+                        modo_allegati_fase2=args.fase2_allegati,
                     )
                 except (NameError, AttributeError, TypeError, ImportError, KeyError, IndexError) as exc:
                     # ERRORE DI PROGRAMMAZIONE, NON DI RETE — distinzione
