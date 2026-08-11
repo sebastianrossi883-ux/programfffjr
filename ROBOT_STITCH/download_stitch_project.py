@@ -21,17 +21,44 @@ from playwright.sync_api import Error, TimeoutError, sync_playwright
 
 
 STITCH_URL = "https://stitch.withgoogle.com/"
+
+# DUE CARTELLE, UNA SOLA VERITA'.
+#
+# send_to_stitch.py scrive i suoi file accanto a se stesso (PROJECT_DIR, cioe'
+# oggi /Volumes/Extreme Pro/ROBOT_STITCH). Questo file invece li cercava ancora
+# in ~/Downloads/reference_splitter, dov'era il progetto prima del trasloco.
+# Risultato silenzioso: last_project_id() leggeva un file che nessuno aggiorna
+# piu' e tornava vuoto o vecchio. Da li' a cascata il gate della fase 1 si
+# saltava da solo ("nessun project id, salto il controllo"), il recupero MCP
+# non partiva e lo ZIP finiva nella cartella sbagliata. Nessun errore a
+# schermo: solo cose che non succedono.
+#
+# `_file_di_progetto` guarda prima accanto allo script, poi nella vecchia
+# posizione: cosi' funziona sia dopo il trasloco sia su un'installazione
+# vecchia, senza che nessuno debba spostare niente.
+PROJECT_DIR = Path(__file__).resolve().parent
+CARTELLA_STORICA = Path("~/Downloads/reference_splitter").expanduser()
+
+
+def _file_di_progetto(nome: str) -> Path:
+    accanto = PROJECT_DIR / nome
+    if accanto.exists():
+        return accanto
+    storico = CARTELLA_STORICA / nome
+    if storico.exists():
+        return storico
+    return accanto  # da creare: si scrive accanto allo script
 PROFILE_DIR = Path("~/Downloads/reference_splitter/.stitch_browser_profile").expanduser()
 DEBUG_DIR = Path("~/Downloads/reference_splitter/debug").expanduser()
 DOWNLOAD_DIR = Path("~/Downloads/stitch_downloads").expanduser()
 BROWSER_DOWNLOAD_DIR = Path("~/Downloads").expanduser()
-LAST_PROJECT_URL_PATH = Path("/Users/utente/Downloads/reference_splitter/LAST_STITCH_PROJECT_URL.txt")
-LAST_DOWNLOAD_PATH = Path("/Users/utente/Downloads/reference_splitter/LAST_STITCH_DOWNLOAD_PATH.txt")
+LAST_PROJECT_URL_PATH = _file_di_progetto("LAST_STITCH_PROJECT_URL.txt")
+LAST_DOWNLOAD_PATH = _file_di_progetto("LAST_STITCH_DOWNLOAD_PATH.txt")
 # Manifest scritto dallo Stadio 1 (motion_component_selector): var CSS / marker
 # <img> -> foto originale a piena risoluzione. Lo Stadio 2 (qui) lo usa per
 # rimpiazzare le anteprime LQIP con le foto vere dopo il download.
-GUEST_IMAGE_MANIFEST_PATH = Path("/Users/utente/Downloads/reference_splitter/generated_motion/GUEST_IMAGE_MANIFEST.json")
-ENV_PATH = Path("/Users/utente/Downloads/reference_splitter/.env")
+GUEST_IMAGE_MANIFEST_PATH = _file_di_progetto("generated_motion/GUEST_IMAGE_MANIFEST.json")
+ENV_PATH = _file_di_progetto(".env")
 REJECTED_DIR = DOWNLOAD_DIR / "rejected_exports"
 LOGIN_WAIT_MS = 600000
 MCP_URL = "https://stitch.googleapis.com/mcp"
@@ -431,8 +458,19 @@ def wait_for_generation_complete(
         # ancora nessun risultato, quindi quella frase e' lavoro in corso e si
         # aspetta. Se invece una schermata nuova e' comparsa, il lavoro e'
         # finito e la frase rimasta a schermo e' cronologia.
-        risultato_presente = baseline_preview is not None and canvas != baseline_preview
-        sblocco_possibile = risultato_presente and secondi_fermo >= sblocco_frasi_vecchie_secondi
+        if baseline_preview is None:
+            # Nessuna foto di partenza: succede quando download_stitch_project
+            # viene lanciato da solo, senza che send() abbia scattato niente.
+            # Li' non si puo' sapere se il canvas si e' mosso, e pretenderlo
+            # significherebbe non sbloccarsi MAI - cioe' riportare in vita lo
+            # stallo da frase vecchia che stiamo eliminando. Si torna al
+            # criterio a tempo, con una soglia molto piu' lunga.
+            sblocco_possibile = secondi_fermo >= sblocco_frasi_vecchie_secondi * 3
+        else:
+            risultato_presente = canvas != baseline_preview
+            sblocco_possibile = (
+                risultato_presente and secondi_fermo >= sblocco_frasi_vecchie_secondi
+            )
 
         if occupato and not sblocco_possibile:
             if adesso - ultimo_messaggio > 30:
