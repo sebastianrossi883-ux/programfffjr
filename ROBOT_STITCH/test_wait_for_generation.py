@@ -48,7 +48,8 @@ class FakePage:
     """
     def __init__(self, clock, script, pre_send):
         self.clock, self.script, self.pre_send = clock, script, pre_send
-        self.main_frame = FakeFrame("main", "")
+        self.url = "https://stitch.withgoogle.com/projects/123"
+        self.main_frame = FakeFrame(self.url, "")
         self._previews = []
         self.congelata = True  # finche' True mostra lo stato pre-invio
         self.keyboard = types.SimpleNamespace(press=lambda k: None)

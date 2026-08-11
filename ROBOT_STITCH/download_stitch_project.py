@@ -190,20 +190,46 @@ EXPORT_PATTERN = r"\bEsporta\b|\bExport\b"
 _GENERATION_BASELINE: dict[str, Any] = {}
 
 
-def main_frame_text(page) -> str:
-    """Testo della sola UI di Stitch, SENZA gli iframe di anteprima del sito.
+def _origine(url: str) -> str:
+    trovato = re.match(r"^(https?://[^/]+)", url or "")
+    return trovato.group(1) if trovato else ""
 
-    `visible_text_exists` gira su `surfaces()`, cioe' anche dentro l'anteprima
-    del sito generato. Per il ristorante italiano quell'anteprima contiene
-    parole come "que-sto", "gu-sto", "no-stro": il vecchio `busy_pattern`
-    cercava `Sto` senza confini di parola e ci trovava dentro una generazione
-    in corso che non esisteva. Lo stato di Stitch sta nella sua UI, non nel
-    sito che ha disegnato.
+
+def frame_interfaccia(page):
+    """I frame che appartengono all'APP Stitch, non all'anteprima del sito.
+
+    Leggere il solo main_frame era troppo stretto: pezzi della UI di Stitch
+    (composer, e con ogni probabilita' la chat) vivono in un iframe, quindi lo
+    stato della generazione non compariva proprio. Era questo a far scattare la
+    spinta su una generazione in corso.
+
+    Il criterio e' l'origine: stessa origine della pagina = interfaccia; tutto
+    il resto (blob:, about:srcdoc, altri host) e' anteprima del sito generato.
     """
-    try:
-        return page.main_frame.locator("body").inner_text(timeout=1500)
-    except (TimeoutError, Error):
-        return ""
+    origine = _origine(page.url)
+    yield page.main_frame
+    for frame in page.frames:
+        if frame is page.main_frame:
+            continue
+        if origine and _origine(frame.url) == origine:
+            yield frame
+
+
+def main_frame_text(page) -> str:
+    """Testo dell'interfaccia di Stitch, SENZA l'anteprima del sito.
+
+    L'anteprima resta fuori perche' contiene il copy del sito generato, e un
+    testo italiano ("questo", "gusto", "posto") faceva scattare i vecchi
+    controlli sullo stato. Lo stato di Stitch sta nella sua UI, non nel sito
+    che ha disegnato.
+    """
+    parti: list[str] = []
+    for frame in frame_interfaccia(page):
+        try:
+            parti.append(frame.locator("body").inner_text(timeout=1200))
+        except (TimeoutError, Error):
+            continue
+    return "\n".join(parti)
 
 
 def preview_signature(page) -> str:
@@ -213,9 +239,10 @@ def preview_signature(page) -> str:
     chat dicono solo che qualcosa e' stato annunciato, e restano li' per
     sempre; una schermata nuova invece si vede.
     """
+    interfaccia = {id(frame) for frame in frame_interfaccia(page)}
     parti: list[str] = []
     for frame in page.frames:
-        if frame is page.main_frame:
+        if id(frame) in interfaccia:
             continue
         try:
             testo = frame.locator("body").inner_text(timeout=800)
@@ -254,6 +281,14 @@ def generation_started_since_baseline(page) -> bool:
         return bool(re.search(ACTIVE_GENERATION_PATTERN, main_frame_text(page), re.I))
     adesso = len(re.findall(ACTIVE_GENERATION_PATTERN, main_frame_text(page), re.I))
     return adesso > int(_GENERATION_BASELINE.get("busy_hits", 0))
+
+
+def canvas_mosso_dopo_invio(page) -> bool:
+    """True se il canvas e' cambiato rispetto alla foto scattata da send()."""
+    baseline = _GENERATION_BASELINE.get("preview")
+    if baseline is None:
+        return False
+    return preview_signature(page) != baseline
 
 
 def wait_for_generation_complete(

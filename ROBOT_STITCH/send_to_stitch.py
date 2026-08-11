@@ -1917,6 +1917,21 @@ def wait_fixed_before_followup(page, seconds: int, label: str) -> bool:
             )
             return True
 
+        # SECONDA GUARDIA, aggiunta dopo il giro finito a 2 sezioni.
+        # "Esporta" non e' l'unico segno che una schermata esiste: se il canvas
+        # si e' mosso rispetto alla foto scattata all'invio, Stitch ha prodotto
+        # qualcosa, e la spinta lo farebbe ripartire da un messaggio corto
+        # buttando via il sito appena fatto. Nel dubbio non si spinge: una fase
+        # in ritardo si recupera, un sito rigenerato male no.
+        from download_stitch_project import canvas_mosso_dopo_invio
+
+        if canvas_mosso_dopo_invio(page):
+            print(
+                f"{label}: il canvas si e' mosso dopo l'invio -> qualcosa e' stato "
+                "generato. NON mando la spinta."
+            )
+            return True
+
         fermo_a_parole = _testo(
             page,
             r"[Pp]rocedo\s+(?:ora\s+)?alla\s+generazione|"
@@ -2859,11 +2874,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--phase-wait-seconds",
         type=int,
-        default=180,
+        default=0,
         help=(
             "TETTO (non attesa fissa) entro cui la fase precedente deve iniziare a "
-            "generare: appena parte si prosegue. 0 disattiva il controllo di partenza. "
-            "Default: 180."
+            "generare. ATTENZIONE: sopra 0 si attiva anche la SPINTA, cioe' un "
+            "messaggio in piu' mandato a Stitch quando la partenza non viene "
+            "riconosciuta. Se la spinta parte su una generazione gia' in corso, il "
+            "sito viene rifatto a partire da quel messaggio corto e perde sezioni. "
+            "Default 0 = nessuna spinta, come e' sempre stato."
         ),
     )
     parser.add_argument(
