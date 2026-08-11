@@ -1,0 +1,97 @@
+Web page, desktop 1440px, single scrolling page, no dark mode variant.
+Subject: see the IDENTITY block appended at the end of this message.
+All UI copy written in Italian, realistic and specific to the subject — never lorem ipsum,
+never generic marketing filler.
+This is a REDESIGN task, not a copy task. The attached screenshots supply the visual language
+only — proportions, colour masses, composition, typography, photographic treatment. Never
+reuse anything they contain as content: no brand name, no logo, no headline, no paragraph, no
+address, no phone number, no opening hours, no product name. All copy is written from scratch
+for the brand named in the IDENTITY block. A page that repeats text visible in the screenshots is a failed output.
+The visual system below is the ONLY source of truth for style. Reproduce it exactly.
+Do not introduce any colour, shape, effect, component or layout pattern that is not listed in it.
+=== DESIGN SYSTEM ===
+PALETTE: base #F4F0E6 | ink #2C2A26 | accent #C9A227 | dark #2F2E2B | line #D8D2C2
+  accent coverage: ~18%
+TYPE: display serif, title case, wide letter-spacing, regular weight
+  body sans, 1:4 vs display
+  eyebrow present: accent colour, lowercase, very wide letter-spacing
+  drop cap present: accent colour, 3 lines tall
+  italic: subtitles under product names only
+GEOMETRY: page 1440px, content column 78%, section padding 120px
+  radius: images 0, cards 0, buttons 0
+  borders: hairline 1px #C9A227 on buttons only
+  shadows: absent — gradients: absent
+SIGNATURE DEVICES:
+  1. Solid accent band running edge to edge behind the content, cut by a white card that
+     overlaps it vertically.
+  2. Black&white photo overlapping the accent band by ~40% of its height.
+  3. Text card in base colour floating over a full-bleed photo, offset right.
+  4. Eyebrow line in accent directly under the display heading, not above it.
+  5. Thin accent underline marking the active nav item.
+IMAGERY: black&white, high contrast; full-bleed for heroes, inset for portraits; 16:9 and 3:4
+NAV: top, base-colour ground, serif title case, thin vertical pipe separators, flag switcher
+BUTTONS: rectangular, no fill, 1px accent border, uppercase letter-spaced label, trailing arrow
+BANNED: rounded corners, drop shadows, gradients, icon-and-text feature rows, testimonial
+  carousels, pricing tables, pill buttons, blue/purple accents, emoji, badges, avatars
+=== END DESIGN SYSTEM ===
+STRUCTURE — exactly 6 full-width sections, in this order, no others:
+1. NAV + HERO — full-bleed photograph, viewport height.
+   Nav: fully transparent, overlaid on the photograph, no background bar, no solid strip, no
+   bottom border, no logo, no wordmark, no brand name, no icons of any kind, no buttons.
+   Only 5 text links, evenly spaced, in the display typeface, in the light-on-image colour.
+   Nothing in the top-right corner: no language switcher, no booking button, no credit line.
+   The nav stays transparent on scroll.
+   Over the photograph, centred: the brand name "the brand named in the IDENTITY block" as large display type, and below it
+   one subtitle line of maximum 6 words. Nothing else — no address, no phone number, no
+   opening hours, no paragraph. Scroll cue at the bottom centre.
+2. MANIFESTO — build it literally as described, do not simplify:
+   - section ground: base colour
+   - a solid rectangle in the ACCENT colour spans the full page width and bleeds off BOTH page
+     edges; its height is about 45% of the section height; it sits in the lower half of the
+     section
+   - a portrait photograph occupies the left third and overlaps that accent rectangle
+     vertically by roughly half of the photo's height, so photo and colour mass intersect
+   - the text column occupies the right half and sits on the base colour: eyebrow, display
+     heading of 2–4 words, two short paragraphs, one button
+   The accent rectangle is mandatory. A version of this section made of just a photo on the
+   left and text on the right, with no accent mass, is a failed output.
+3. FEATURE A — full-bleed photograph with a text card floating over it, offset to one side.
+   Eyebrow, display heading, one paragraph, one button.
+4. FEATURE B — the mirror of section 3: card on the opposite side. The dark colour is the
+   GROUND of this entire section, edge to edge, top to bottom: the photograph and the card sit
+   on top of it with margin around them, so the dark colour frames them. Do not render the
+   dark colour as a separate empty strip above or below the section.
+5. SELECTION — centred eyebrow + display heading, then a row of 3 items. Each item: image,
+   name in display typeface, one-line italic subtitle, one text link. Cards must follow the
+   geometry tokens above (radius, borders, shadows) with no exception.
+   The 3 items are perfectly aligned: identical image height and width, shared top edge,
+   shared baseline for names, for subtitles and for links. No stagger, no offset, no
+   difference in card height.
+6. CLOSING + FOOTER — full-width band in the accent or dark colour, short invitation line with
+   one button, then footer in columns: contacts, address, social, legal links, hairline
+   separator.
+RHYTHM:
+- Alternate light and heavy grounds between sections; never two identical grounds in a row.
+- Section padding and content column width identical across all sections.
+- Generous whitespace: text blocks never exceed 60% of the page width.
+- Every section must reuse at least one SIGNATURE DEVICE. A section built from plain centred
+  text and a photo is a failure.
+GRAPHIC QUOTA — count these before returning the page:
+- At least 3 of the 6 sections contain a SOLID MASS of the accent or dark colour covering 25%
+  or more of that section's area. Accent used only for text, eyebrows, hairlines or button
+  borders does NOT count towards this quota.
+- At least 2 sections contain an element that bleeds off a page edge.
+- At least 2 sections contain two elements that visibly overlap each other.
+If the page does not meet all three counts, rebuild the sections that are missing them.
+HARD CONSTRAINTS:
+- Icons: none anywhere, unless the design system explicitly lists an icon style.
+- Every coloured band must contain content. Never place an empty strip of accent or dark
+  colour between two sections as a divider: a colour mass is either the ground a section sits
+  on, or a block that a photo or a card overlaps. Sections are separated by padding only.
+- Use only the hex values listed. No other colour anywhere, including icons and hovers.
+- Maximum 2 typefaces.
+- Everything in BANNED must be absent.
+- No stock SaaS/landing-page patterns: no icon-and-text feature grids, no testimonial carousel,
+  no pricing table, no newsletter popup, no chat bubble, no statistics counters, no emoji.
+- No decorative element invented outside the design system.
+- Photography direction as specified in IMAGERY — apply the same treatment to every image.
