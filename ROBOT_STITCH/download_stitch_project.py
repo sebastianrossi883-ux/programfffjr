@@ -172,6 +172,15 @@ def click_top_left_menu(page) -> bool:
 # chat anche dopo, per sempre: sono un indizio, mai una prova. Chi le legge
 # deve sempre chiedersi "questa e' nuova o e' la cronologia?".
 ACTIVE_GENERATION_PATTERN = (
+    # STATI IN INGLESE. L'interfaccia di Stitch puo' essere in inglese anche
+    # con Chrome in italiano, e li' il messaggio di lavoro in corso e' un
+    # semplice "Thinking...". Mancava, e senza di lui il robot non vedeva mai
+    # partire la generazione: restava senza prova forte e finiva sulla via
+    # lenta o sulla spinta. Restano parole strette: niente "Building" o
+    # "Designing", che compaiono anche nei testi fissi dell'interfaccia.
+    r"\bThinking\b|\bReasoning\b|\bAnalyz(?:e|ing)\b|\bAnalysing\b|"
+    r"\bRendering\b|\bWorking\s+on\b|"
+    r"\bSto\s+pensando\b|\bElaborazione\b|"
     r"Generazione\s+(?:immagine|schermata)\s+in\s+corso|"
     r"Generazione\s+schermata|"
     r"Generazione\s+immagine|"
@@ -415,7 +424,17 @@ def wait_for_generation_complete(
             page.wait_for_timeout(3000)
             continue
 
-        if occupato and secondi_fermo < sblocco_frasi_vecchie_secondi:
+        # QUANDO SI PUO' IGNORARE LA FRASE DI STATO.
+        # Non basta che la pagina sia ferma: con la UI inglese Stitch scrive
+        # "Thinking..." e puo' restare immobile per minuti mentre lavora
+        # davvero. La differenza la fa il canvas: se non si e' mosso non c'e'
+        # ancora nessun risultato, quindi quella frase e' lavoro in corso e si
+        # aspetta. Se invece una schermata nuova e' comparsa, il lavoro e'
+        # finito e la frase rimasta a schermo e' cronologia.
+        risultato_presente = baseline_preview is not None and canvas != baseline_preview
+        sblocco_possibile = risultato_presente and secondi_fermo >= sblocco_frasi_vecchie_secondi
+
+        if occupato and not sblocco_possibile:
             if adesso - ultimo_messaggio > 30:
                 ultimo_messaggio = adesso
                 print(f"Stitch sta ancora generando ({int(adesso - inizio)}s): aspetto...")

@@ -164,6 +164,17 @@ tutti.append(run(
     attesi=(True, 150),
 ))
 
+# 7. INTERFACCIA IN INGLESE: Stitch dice solo "Thinking...". E' lo stato che
+#    si vede nella foto dell'utente, e prima non era riconosciuto affatto.
+tutti.append(run(
+    "UI inglese: 'Thinking...' riconosciuto come lavoro in corso",
+    [(0, "Generate an animation\nThinking...\nExport\n", SITO_V1),
+     (70, "Generate an animation\nThinking...\nExport\n", SITO_V1),
+     (130, "Generate an animation\nHere is your screen.\nExport\n", SITO_V2)],
+    pre_send=("Export\n", SITO_V1),
+    attesi=(True, 130),
+))
+
 print("=" * 78)
 print("TUTTI OK" if all(tutti) else "QUALCOSA NON VA")
 sys.exit(0 if all(tutti) else 1)
